@@ -1,0 +1,63 @@
+{
+  "id": "bug-fix-pipeline",
+  "name": "Bug Fix Pipeline",
+  "steps": [
+    {
+      "id": "reproduce",
+      "name": "Reproduce Bug",
+      "action": {
+        "type": "command",
+        "cmd": "echo 'Running reproduction steps...'"
+      },
+      "depends_on": [],
+      "retry": { "max_retries": 1, "backoff_secs": 5 },
+      "timeout_secs": 120
+    },
+    {
+      "id": "diagnose",
+      "name": "Diagnose Root Cause",
+      "action": {
+        "type": "agent",
+        "agent_id": "kai",
+        "prompt": "Analyze the reproduction output and diagnose the root cause of the bug."
+      },
+      "depends_on": ["reproduce"],
+      "timeout_secs": 120
+    },
+    {
+      "id": "fix",
+      "name": "Implement Fix",
+      "action": {
+        "type": "agent",
+        "agent_id": "nova",
+        "prompt": "Implement a fix for the diagnosed root cause."
+      },
+      "depends_on": ["diagnose"],
+      "retry": { "max_retries": 2, "backoff_secs": 10 },
+      "timeout_secs": 300
+    },
+    {
+      "id": "test",
+      "name": "Run Tests",
+      "action": {
+        "type": "command",
+        "cmd": "echo 'Running test suite...'"
+      },
+      "depends_on": ["fix"],
+      "retry": { "max_retries": 1, "backoff_secs": 5 },
+      "timeout_secs": 180
+    },
+    {
+      "id": "review",
+      "name": "Code Review",
+      "action": {
+        "type": "agent",
+        "agent_id": "orion",
+        "prompt": "Review the fix for security issues, code quality, and correctness."
+      },
+      "depends_on": ["test"],
+      "timeout_secs": 120
+    }
+  ],
+  "on_error": "fail_fast"
+}

@@ -1,0 +1,6 @@
+{
+  "id": "refactor-008",
+  "category": "refactor",
+  "prompt": "`OrderService::charge()` creates a new HTTP client on every call. Refactor to accept an injected `Arc<HttpClient>` and update the two call sites.",
+  "rubric": "5/5 if: the client is reused across calls, tests can inject a fake client via the same constructor, no global singleton is introduced, and a benchmark shows \u2265 5\u00d7 connection reuse under sustained load."
+}

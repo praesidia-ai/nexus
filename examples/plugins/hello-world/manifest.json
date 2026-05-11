@@ -1,0 +1,27 @@
+{
+    "id": "hello-world",
+    "name": "Hello World Plugin",
+    "version": "1.0.0",
+    "description": "A simple example plugin that logs a message after generation",
+    "author": "Nexus Team",
+    "capabilities": [],
+    "hooks": [
+        {
+            "hook_point": {
+                "point": "post_generation"
+            },
+            "priority": 100,
+            "condition": null,
+            "timeout_ms": 5000,
+            "blocking": false,
+            "requires": []
+        }
+    ],
+    "config_schema": null,
+    "compatibility": {
+        "min_version": "0.1.0",
+        "max_version": null,
+        "required_plugins": [],
+        "conflicts_with": []
+    }
+}

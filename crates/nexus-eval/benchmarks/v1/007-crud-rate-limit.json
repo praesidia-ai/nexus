@@ -1,0 +1,6 @@
+{
+  "id": "crud-004",
+  "category": "crud",
+  "prompt": "Add a per-IP rate limit to the `POST /auth/login` endpoint: max 5 attempts per minute, 15-minute cool-down after the 5th failure. Use an in-memory store (no Redis). Successful logins reset the counter.",
+  "rubric": "5/5 if: counter is scoped by remote IP (not user id), cool-down returns 429 with a `Retry-After` header, successful login clears the counter, and the implementation is concurrency-safe under parallel requests."
+}

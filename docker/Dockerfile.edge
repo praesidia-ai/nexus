@@ -1,0 +1,38 @@
+# syntax=docker/dockerfile:1.5
+# Nexus Edge Image — minimal Alpine-based image for resource-constrained deployments.
+#
+# Build:
+#   docker buildx build --platform linux/amd64,linux/arm64 -f docker/Dockerfile.edge -t nexus-server:edge .
+
+FROM --platform=$BUILDPLATFORM rust:1.82-alpine AS builder
+
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+
+RUN apk add --no-cache musl-dev openssl-dev pkgconfig
+
+WORKDIR /src
+COPY . .
+
+# Build the server binary (static musl)
+RUN cargo build --release -p nexus-http --bin nexus-server \
+    && strip target/release/nexus-server
+
+# ── Runtime ──────────────────────────────────────────────────────────────────
+FROM alpine:3.20
+
+RUN apk add --no-cache ca-certificates sqlite-libs
+
+COPY --from=builder /src/target/release/nexus-server /usr/local/bin/nexus-server
+
+ENV NEXUS_PROFILE=edge
+ENV NEXUS_PORT=8080
+ENV NEXUS_DATA_DIR=/data
+
+VOLUME ["/data"]
+EXPOSE 8080
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s \
+    CMD wget -qO- http://localhost:8080/health || exit 1
+
+ENTRYPOINT ["/usr/local/bin/nexus-server"]

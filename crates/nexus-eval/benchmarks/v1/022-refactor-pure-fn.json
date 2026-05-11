@@ -1,0 +1,6 @@
+{
+  "id": "refactor-006",
+  "category": "refactor",
+  "prompt": "Convert `computeOrderSummary(order, db, now)` in `src/orders.ts` into a pure function by removing the `db` and `now` parameters. The caller must pass already-loaded line items and a timestamp. Update the two call sites accordingly.",
+  "rubric": "5/5 if: the function becomes pure (no I/O, no side effects), both call sites load data upfront and pass it in, the new signature is documented, the output is byte-identical to the previous implementation for a fixture input, and the function can now be unit-tested without mocks."
+}

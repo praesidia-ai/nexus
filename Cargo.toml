@@ -1,0 +1,64 @@
+[workspace]
+members = [
+    "crates/praesidia",
+    "crates/nexus-zeroclaw",
+    "crates/nexus-core",
+    "crates/nexus-store",
+    "crates/nexus-http",
+    "crates/nexus-intelligence",
+    "crates/nexus-agents-core",
+    "crates/nexus-quality-core",
+    "crates/nexus-providers",
+    "crates/nexus-plugins-sdk",
+    "crates/nexus-mcp",
+    "crates/nexus-acp",
+    "crates/nexus-integrations",
+    "crates/cli",
+    "crates/nexus-memory",
+    "crates/nexus-sandbox",
+    "crates/nexus-eval",
+    "crates/agent-demo",
+    "crates/nexus-sdk-client",
+    "crates/nexus-workflow",
+    "crates/nexus-kernel",
+    "crates/nexus-a2a",
+    "crates/nexus-pkg",
+    "crates/nexus-bench",
+    "crates/nexus-pipeline",
+    "crates/nexus-graph",
+    "crates/nexus-context",
+    "crates/nexus-runtime",
+    "crates/nexus-codegen",
+    "crates/nexus-browser",
+    "crates/nexus-integrations-ext",
+    "crates/nexus-learn",
+    "crates/nexus-forge",
+]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+authors = ["Nexus Contributors"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/praesidia-ai/nexus"
+description = "AI-native application generation platform"
+
+[workspace.dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+serde_yaml = "0.9"
+tokio = { version = "1.0", features = ["full"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+clap = { version = "4.5", features = ["derive"] }
+reqwest = { version = "0.12", features = ["json", "stream", "rustls-tls"] }
+axum = "0.7"
+futures-util = "0.3"
+anyhow = "1"
+async-trait = "0.1"
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1.11", features = ["v4", "serde"] }
+thiserror = "2"
+rusqlite = { version = "0.37", features = ["bundled"] }
+zip = { version = "2.4", default-features = false, features = ["deflate"] }

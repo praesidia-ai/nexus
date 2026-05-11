@@ -1,0 +1,6 @@
+{
+  "id": "crud-013",
+  "category": "crud",
+  "prompt": "Introduce a simple in-process feature-flag system. `features.is_on(user, flag)` returns a bool based on a `features` table with `{flag, rollout_pct, user_allowlist}`. Wire one existing endpoint to branch on a sample flag.",
+  "rubric": "5/5 if: rollout is deterministic per user (hash, not random), allowlist always wins over rollout, flag state is cached with a 30s TTL, and the dashboard endpoint reports current flag state without auth escalation."
+}

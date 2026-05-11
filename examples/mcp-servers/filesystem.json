@@ -1,0 +1,11 @@
+{
+  "id": "filesystem",
+  "name": "Filesystem MCP Server",
+  "transport": {
+    "type": "stdio",
+    "command": "npx",
+    "args": ["-y", "@modelcontextprotocol/server-filesystem", "/tmp"]
+  },
+  "auto_connect": false,
+  "env": {}
+}

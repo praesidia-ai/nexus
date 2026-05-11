@@ -1,0 +1,33 @@
+[package]
+name = "nexus-store"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "SQLite persistence and session domain API for Nexus"
+
+license.workspace = true
+repository.workspace = true
+[dependencies]
+rusqlite.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+uuid.workspace = true
+chrono.workspace = true
+tokio = { workspace = true, features = ["sync", "rt", "macros"] }
+# At-rest encryption for vault + LLM API keys in settings.
+aes-gcm = "0.10"
+sha2 = "0.10"
+base64 = "0.22"
+rand = "0.8"
+# Argon2id KDF for stretching NEXUS_ENCRYPTION_KEY. A weak env-var value is
+# far harder to brute-force after argon2id stretching than after a single
+# SHA-256 pass.
+argon2 = { version = "0.5", default-features = false, features = ["alloc", "password-hash"] }
+# Hex-decoding the per-install salt loaded from NEXUS_ENCRYPTION_SALT.
+hex = "0.4"
+tracing.workspace = true
+
+[dev-dependencies]
+tempfile = "3"
+tokio = { workspace = true, features = ["full"] }

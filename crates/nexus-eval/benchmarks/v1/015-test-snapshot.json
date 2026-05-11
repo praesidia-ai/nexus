@@ -1,0 +1,6 @@
+{
+  "id": "test-003",
+  "category": "test",
+  "prompt": "Add a snapshot test for the rendered output of `<InvoicePreview invoice={…}>` in `src/components/InvoicePreview.tsx` using Vitest + `@testing-library/react`. Cover the happy path, an invoice with zero line items, and one with > 50 items.",
+  "rubric": "5/5 if: three snapshot files are committed, the snapshots are minimal (no wall-clock, no random ids), the test file runs without a warning under CI, and a follow-up snapshot update is a one-flag run."
+}

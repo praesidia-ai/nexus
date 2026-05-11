@@ -1,0 +1,6 @@
+{
+  "id": "refactor-009",
+  "category": "refactor",
+  "prompt": "The TypeScript frontend and the Node backend duplicate 12 domain types. Move them into a shared `packages/types` and re-export. Update imports in both consumers.",
+  "rubric": "5/5 if: the shared types are the single source of truth, both consumers import from `packages/types` only, there are no structural drifts between the two sides, and a build-time check fails when a type is redefined elsewhere."
+}

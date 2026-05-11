@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nexus-config
+  namespace: nexus
+  labels:
+    app.kubernetes.io/name: nexus
+data:
+  NEXUS_PORT: "8020"
+  NEXUS_DATA_DIR: "/data"
+  NEXUS_LOG_LEVEL: "info"
+  RUST_LOG: "nexus_http=info,nexus_store=info"

@@ -1,0 +1,23 @@
+[package]
+name = "nexus-zeroclaw"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "Nexus wrapper around the ZeroClaw agent runtime — named agents, roles, roster, inter-agent messaging"
+
+license.workspace = true
+repository.workspace = true
+[dependencies]
+tokio.workspace = true
+anyhow.workspace = true
+async-trait.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tracing.workspace = true
+uuid.workspace = true
+chrono.workspace = true
+reqwest.workspace = true
+rusqlite.workspace = true
+
+[dev-dependencies]
+tempfile = "3"

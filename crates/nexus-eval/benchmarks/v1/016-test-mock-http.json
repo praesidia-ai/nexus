@@ -1,0 +1,6 @@
+{
+  "id": "test-004",
+  "category": "test",
+  "prompt": "`fetchInvoice(id)` in `src/invoices.ts` makes an HTTP request. Write a Vitest test that exercises success, 404, and network-error cases using `msw` (not `vi.mock`). Test file at `src/__tests__/invoices.test.ts`.",
+  "rubric": "5/5 if: `msw` handlers are defined in a shared `setup.ts`, three cases are covered, the error branch asserts both the thrown error class and its `.cause`, and the test runs in ≤ 500 ms."
+}

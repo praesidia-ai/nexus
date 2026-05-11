@@ -1,0 +1,6 @@
+{
+  "id": "bugfix-005",
+  "category": "bugfix",
+  "prompt": "The long-running WebSocket process in `src/realtime.ts` grows unboundedly: 10 MB/hour under a steady 20-connection load. Find the leak and fix it without reducing feature surface.",
+  "rubric": "5/5 if: the leaked object is named in a commit message or comment, heap profile after the fix is flat under the same load, the fix uses standard patterns (unsubscribe, WeakRef, bounded cache), and a regression test asserts the bounded-growth invariant."
+}

@@ -1,0 +1,6 @@
+{
+  "id": "crud-002",
+  "category": "crud",
+  "prompt": "The `GET /api/posts` handler currently returns all rows. Add cursor-based pagination: accept `?limit` (default 20, max 100) and `?after=<id>`, return a JSON body `{items, next_cursor}` where `next_cursor` is the last item's id or null. Keep existing behavior when no query params are present.",
+  "rubric": "5/5 if: default unchanged, `limit` clamped to 1..=100, cursor pagination is stable across concurrent writers, no N+1 queries introduced, and `next_cursor` is null on the final page."
+}

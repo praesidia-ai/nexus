@@ -1,0 +1,6 @@
+{
+  "id": "bugfix-002",
+  "category": "bugfix",
+  "prompt": "Under load, `AgentPool::checkout` in `src/pool.rs` sometimes returns the same agent to two callers. The symptom is intermittent duplicate work in the integration tests. Diagnose the race and fix it without changing the public signature.",
+  "rubric": "5/5 if: the fix is a correct concurrency primitive (mutex/atomic/channel, not a sleep), the integration tests pass deterministically under `--test-threads=16`, the fix is documented in a short comment, and no new `unsafe` blocks are introduced."
+}

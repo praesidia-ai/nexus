@@ -1,0 +1,49 @@
+name: Feature request
+description: Suggest a new feature or enhancement
+title: "[feature] "
+labels: [enhancement, triage]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: What user problem or limitation is this trying to solve?
+      placeholder: "Right now agents cannot X, which means users have to..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: How should Nexus solve it? Include API / UX sketches if helpful.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: What other options did you think about, and why didn't you pick them?
+
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Surface
+      options:
+        - Backend (nexus-http / crates)
+        - Frontend (web/)
+        - CLI
+        - SDK / A2A protocol
+        - Docs / DX
+        - Other
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      options:
+        - label: I agree to follow the [Code of Conduct](../CODE_OF_CONDUCT.md).
+          required: true

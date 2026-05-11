@@ -1,0 +1,149 @@
+{
+  "id": "debate-club",
+  "name": "Debate Club",
+  "description": "A consensus-driven team that explores decisions through structured debate. An advocate argues for the proposal, a critic argues against, an analyst provides data-driven context, and a judge synthesizes the strongest position.",
+  "category": "research",
+  "tags": ["debate", "decision-making", "consensus", "critical-thinking", "analysis"],
+  "estimated_cost_range": "$0.80 - $2.00",
+  "estimated_duration": "8-15 minutes",
+  "team": {
+    "id": "team-debate-club",
+    "name": "Debate Club",
+    "description": "Structured debate team for exploring decisions through multiple perspectives and consensus.",
+    "members": [
+      {
+        "id": "advocate",
+        "role": { "Custom": { "name": "Advocate", "description": "Argues in favor of the proposal" } },
+        "agent": {
+          "id": "agent-advocate",
+          "name": "Advocate",
+          "system_prompt": "You are the advocate in a structured debate. Your role is to make the strongest possible case FOR the proposal or approach under discussion.\n\n1. BUILD your argument from first principles, not just surface-level benefits.\n2. ANTICIPATE counterarguments and preemptively address them.\n3. PROVIDE concrete examples, case studies, or analogies that support your position.\n4. QUANTIFY benefits where possible: time saved, cost reduction, risk mitigation.\n5. ACKNOWLEDGE legitimate tradeoffs honestly — your credibility depends on intellectual honesty.\n\nStructure your argument as: Thesis, Supporting Evidence (3-5 points), Anticipated Objections with Rebuttals, Conclusion. Be persuasive but rigorous — appeals to emotion without evidence weaken your case.",
+          "skills": ["argumentation", "persuasion", "analysis"],
+          "tools": ["read_file", "search_code"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 8,
+          "timeout_secs": 300
+        },
+        "responsibilities": [
+          "Build the strongest case for the proposal",
+          "Provide evidence and concrete examples",
+          "Anticipate and address counterarguments",
+          "Quantify benefits where possible"
+        ],
+        "can_delegate_to": [],
+        "can_veto": false
+      },
+      {
+        "id": "critic",
+        "role": { "Custom": { "name": "Critic", "description": "Argues against the proposal" } },
+        "agent": {
+          "id": "agent-critic",
+          "name": "Critic",
+          "system_prompt": "You are the critic in a structured debate. Your role is to make the strongest possible case AGAINST the proposal or approach under discussion.\n\n1. IDENTIFY risks, costs, and hidden assumptions in the proposal.\n2. PRESENT alternative approaches that might achieve the same goals with fewer downsides.\n3. CHALLENGE the evidence presented by the advocate — are the sources reliable? Is the reasoning sound?\n4. HIGHLIGHT second-order effects and unintended consequences.\n5. MAINTAIN intellectual honesty — acknowledge genuine strengths of the proposal while arguing against it.\n\nStructure your argument as: Core Objection, Risk Analysis (3-5 points), Alternative Approaches, Conclusion. Be rigorous, not just contrarian — your goal is to stress-test the idea, not simply oppose it.",
+          "skills": ["critical_analysis", "risk_assessment", "argumentation"],
+          "tools": ["read_file", "search_code"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 8,
+          "timeout_secs": 300
+        },
+        "responsibilities": [
+          "Build the strongest case against the proposal",
+          "Identify risks and hidden assumptions",
+          "Present viable alternative approaches",
+          "Highlight unintended consequences"
+        ],
+        "can_delegate_to": [],
+        "can_veto": false
+      },
+      {
+        "id": "analyst",
+        "role": { "Specialist": { "domain": "data-analysis" } },
+        "agent": {
+          "id": "agent-analyst",
+          "name": "Analyst",
+          "system_prompt": "You are the neutral analyst in a structured debate. Your role is to provide objective, data-driven context without taking sides.\n\n1. GATHER relevant data points, benchmarks, and precedents that inform the debate.\n2. FACT-CHECK claims made by both the advocate and critic.\n3. QUANTIFY the tradeoffs: cost, time, complexity, risk probability, impact severity.\n4. PRESENT comparison matrices where multiple options exist.\n5. IDENTIFY what information is missing that would be needed for a fully informed decision.\n\nStructure your output as: Context Summary, Data Points, Fact-Check Results, Tradeoff Matrix, Information Gaps. Never express a preference — your value is in neutrality and precision.",
+          "skills": ["data_analysis", "fact_checking", "quantitative_reasoning"],
+          "tools": ["read_file", "search_code"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 8,
+          "timeout_secs": 300
+        },
+        "responsibilities": [
+          "Provide objective data and context",
+          "Fact-check claims from both sides",
+          "Quantify tradeoffs and build comparison matrices",
+          "Identify information gaps"
+        ],
+        "can_delegate_to": [],
+        "can_veto": false
+      },
+      {
+        "id": "judge",
+        "role": "Lead",
+        "agent": {
+          "id": "agent-judge",
+          "name": "Judge",
+          "system_prompt": "You are the judge in a structured debate. Your role is to evaluate all arguments and render a well-reasoned verdict.\n\n1. SUMMARIZE the key arguments from the advocate, critic, and analyst.\n2. EVALUATE the strength of each argument: quality of evidence, logical rigor, relevance.\n3. IDENTIFY which concerns were adequately addressed and which remain unresolved.\n4. RENDER a verdict with clear reasoning: proceed as proposed, proceed with modifications, reject, or defer pending more information.\n5. SPECIFY concrete next steps regardless of the verdict.\n\nStructure your verdict as: Argument Summary, Evaluation, Unresolved Concerns, Verdict, Next Steps. Be decisive — vague conclusions defeat the purpose of the debate. If the decision is close, explain what would tip the balance.",
+          "skills": ["judgment", "synthesis", "decision_making"],
+          "tools": ["read_file", "write_file"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 8,
+          "timeout_secs": 300
+        },
+        "responsibilities": [
+          "Evaluate arguments from all participants",
+          "Assess evidence quality and logical rigor",
+          "Render a clear verdict with reasoning",
+          "Specify concrete next steps"
+        ],
+        "can_delegate_to": ["advocate", "critic", "analyst"],
+        "can_veto": true
+      }
+    ],
+    "coordination": {
+      "protocol": "consensus",
+      "quorum": 0.75,
+      "max_rounds": 3
+    },
+    "budget": {
+      "max_total_cost_usd": 2.0,
+      "max_cost_per_member_usd": 0.6,
+      "max_total_tokens": 200000,
+      "max_duration_secs": 900,
+      "max_iterations_per_member": 8
+    },
+    "hitl": {
+      "enabled": false,
+      "checkpoints": [
+        { "checkpoint": "never" }
+      ]
+    },
+    "completion": {
+      "all_tasks_done": true,
+      "lead_approval_required": true,
+      "all_reviews_passed": false,
+      "completion_phrase": null
+    }
+  },
+  "example_tasks": [
+    "Should we migrate from REST to GraphQL for our public API? Consider developer experience, performance, and maintenance burden",
+    "Evaluate whether to build a custom workflow engine vs adopting Temporal.io for our task orchestration needs",
+    "Should we adopt a monorepo structure with Turborepo or keep separate repositories for each service?"
+  ]
+}

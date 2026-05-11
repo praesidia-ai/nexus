@@ -1,0 +1,91 @@
+{
+  "domain": "healthcare",
+  "triggers": ["healthcare", "medical", "clinic", "hospital", "patient", "doctor", "health record", "EMR", "EHR"],
+  "default_entities": [
+    {
+      "name": "Patient",
+      "fields": ["id", "first_name", "last_name", "date_of_birth", "email", "phone", "insurance_id", "medical_record_number"]
+    },
+    {
+      "name": "Doctor",
+      "fields": ["id", "first_name", "last_name", "specialty", "license_number", "email", "phone", "department"]
+    },
+    {
+      "name": "Appointment",
+      "fields": ["id", "patient_id", "doctor_id", "date", "time", "duration_minutes", "status", "reason", "notes"]
+    },
+    {
+      "name": "MedicalRecord",
+      "fields": ["id", "patient_id", "doctor_id", "date", "diagnosis", "treatment", "prescription", "notes"]
+    },
+    {
+      "name": "Prescription",
+      "fields": ["id", "patient_id", "doctor_id", "medication", "dosage", "frequency", "start_date", "end_date"]
+    }
+  ],
+  "default_pages": [
+    {
+      "name": "Dashboard",
+      "route": "/dashboard",
+      "description": "Overview of today's appointments, patient alerts, and key metrics"
+    },
+    {
+      "name": "Patient List",
+      "route": "/patients",
+      "description": "Searchable list of all patients with filtering by status and department"
+    },
+    {
+      "name": "Patient Detail",
+      "route": "/patients/:id",
+      "description": "Full patient profile with medical history, appointments, and prescriptions"
+    },
+    {
+      "name": "Schedule",
+      "route": "/schedule",
+      "description": "Calendar view of doctor and room availability with appointment booking"
+    },
+    {
+      "name": "Medical Records",
+      "route": "/records",
+      "description": "Searchable medical records with audit trail"
+    },
+    {
+      "name": "Prescriptions",
+      "route": "/prescriptions",
+      "description": "Prescription management with drug interaction checking"
+    }
+  ],
+  "hidden_requirements": [
+    {
+      "category": "compliance",
+      "description": "HIPAA compliance: all patient data must be encrypted at rest and in transit, access must be logged",
+      "priority": "Critical"
+    },
+    {
+      "category": "compliance",
+      "description": "Audit trail: every access to patient records must be logged with user identity and timestamp",
+      "priority": "Critical"
+    },
+    {
+      "category": "security",
+      "description": "Role-based access control: doctors, nurses, and admin staff see different data",
+      "priority": "Critical"
+    },
+    {
+      "category": "security",
+      "description": "Session timeout: automatic logout after 15 minutes of inactivity",
+      "priority": "Important"
+    },
+    {
+      "category": "data",
+      "description": "Data backup: daily encrypted backups with 30-day retention",
+      "priority": "Important"
+    },
+    {
+      "category": "accessibility",
+      "description": "WCAG 2.1 AA compliance for all patient-facing interfaces",
+      "priority": "Important"
+    }
+  ],
+  "ui_style_hint": "Corporate"
+}

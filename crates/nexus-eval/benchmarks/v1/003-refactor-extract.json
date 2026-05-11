@@ -1,0 +1,6 @@
+{
+  "id": "refactor-001",
+  "category": "refactor",
+  "prompt": "The `handleCheckout` function in `src/checkout.ts` is 220 lines. Extract the input-validation block into a standalone `validateCart` function in `src/cart/validate.ts`. Call sites must see no behavior change.",
+  "rubric": "5/5 if: `validateCart` is a pure function, `handleCheckout` is reduced by ≥ 30%, error messages are unchanged, the new file has a focused unit test, and the public API of `checkout.ts` is unchanged."
+}

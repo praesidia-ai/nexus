@@ -1,0 +1,17 @@
+[package]
+name = "nexus-quality-core"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "Quality scoring traits and types for Nexus — taste scoring, guarantees, fix plans"
+license.workspace = true
+
+repository.workspace = true
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+async-trait = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["macros", "rt"] }

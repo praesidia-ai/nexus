@@ -1,0 +1,55 @@
+name: Bounty Claim
+description: Claim a bounty for a completed issue
+title: "[Bounty Claim] "
+labels: ["bounty-claim"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Fill in this form to claim your bounty reward. Read the [bounty program guidelines](../../CONTRIBUTING.md#bounty-program) first.
+
+  - type: input
+    id: issue
+    attributes:
+      label: Original Issue
+      description: Link to the bounty-tagged issue you resolved.
+      placeholder: "https://github.com/your-org/nexus/issues/123"
+    validations:
+      required: true
+
+  - type: input
+    id: pr
+    attributes:
+      label: Pull Request
+      description: Link to the merged PR.
+      placeholder: "https://github.com/your-org/nexus/pull/456"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: size
+    attributes:
+      label: Bounty Size
+      options:
+        - "small ($25–$100)"
+        - "medium ($100–$500)"
+        - "large ($500–$2000)"
+    validations:
+      required: true
+
+  - type: input
+    id: wallet
+    attributes:
+      label: Payment Address
+      description: USDC (Base/Polygon) or GitHub Sponsors handle.
+      placeholder: "0x... or github:username"
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Work Summary
+      description: Brief description of what you implemented.
+    validations:
+      required: true

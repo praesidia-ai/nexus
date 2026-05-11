@@ -1,0 +1,6 @@
+{
+  "id": "bugfix-006",
+  "category": "bugfix",
+  "prompt": "The outbound-webhook worker retries failed requests every 500 ms forever. When a downstream endpoint goes down, that amplifies into a denial-of-service on the recipient. Implement exponential backoff with jitter and a hard retry cap.",
+  "rubric": "5/5 if: backoff is exponential with full jitter, the cap is configurable via env, retries above the cap mark the webhook as failed (not queued indefinitely), and a unit test demonstrates no more than 7 attempts within 30 s against a deterministic clock."
+}

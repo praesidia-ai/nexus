@@ -1,0 +1,6 @@
+{
+  "id": "refactor-007",
+  "category": "refactor",
+  "prompt": "Three call sites in `src/storage.rs` branch on `storage_backend: String` (\"s3\", \"gcs\", \"local\"). Extract a `ObjectStore` trait + three impls + a factory that picks the impl by name.",
+  "rubric": "5/5 if: call sites no longer branch on the backend string, each impl is in its own file, the trait has explicit associated error type, existing tests pass without modification, and the factory rejects unknown backend names with a clear error."
+}

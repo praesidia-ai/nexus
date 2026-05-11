@@ -1,0 +1,98 @@
+{
+  "id": "full-build-pipeline",
+  "name": "Full Build Pipeline",
+  "steps": [
+    {
+      "id": "analyze",
+      "name": "Analyze Requirements",
+      "action": {
+        "type": "agent",
+        "agent_id": "kai",
+        "prompt": "Analyze the project requirements and produce a structured specification."
+      },
+      "depends_on": [],
+      "retry": { "max_retries": 1, "backoff_secs": 5 },
+      "timeout_secs": 120
+    },
+    {
+      "id": "decide",
+      "name": "Architecture Decision",
+      "action": {
+        "type": "agent",
+        "agent_id": "leo",
+        "prompt": "Based on the analysis, decide the tech stack and architecture."
+      },
+      "depends_on": ["analyze"],
+      "retry": { "max_retries": 1, "backoff_secs": 5 },
+      "timeout_secs": 120
+    },
+    {
+      "id": "generate-frontend",
+      "name": "Generate Frontend",
+      "action": {
+        "type": "agent",
+        "agent_id": "nova",
+        "prompt": "Generate the frontend code based on the architecture decision."
+      },
+      "depends_on": ["decide"],
+      "retry": { "max_retries": 2, "backoff_secs": 10 },
+      "timeout_secs": 300
+    },
+    {
+      "id": "generate-backend",
+      "name": "Generate Backend",
+      "action": {
+        "type": "agent",
+        "agent_id": "nova",
+        "prompt": "Generate the backend code based on the architecture decision."
+      },
+      "depends_on": ["decide"],
+      "retry": { "max_retries": 2, "backoff_secs": 10 },
+      "timeout_secs": 300
+    },
+    {
+      "id": "taste-gate",
+      "name": "Taste & Quality Gate",
+      "action": {
+        "type": "quality_gate",
+        "check": "taste"
+      },
+      "depends_on": ["generate-frontend", "generate-backend"],
+      "timeout_secs": 60
+    },
+    {
+      "id": "guarantee",
+      "name": "Outcome Guarantee",
+      "action": {
+        "type": "quality_gate",
+        "check": "outcome-guarantee"
+      },
+      "depends_on": ["taste-gate"],
+      "retry": { "max_retries": 3, "backoff_secs": 15 },
+      "timeout_secs": 180
+    },
+    {
+      "id": "approval",
+      "name": "Human Approval",
+      "action": {
+        "type": "human_approval",
+        "description": "Review the generated application before deployment."
+      },
+      "depends_on": ["guarantee"]
+    },
+    {
+      "id": "deploy",
+      "name": "Deploy",
+      "action": {
+        "type": "agent",
+        "agent_id": "rex",
+        "prompt": "Deploy the application to the target environment."
+      },
+      "depends_on": ["approval"],
+      "condition": "deploy_enabled",
+      "retry": { "max_retries": 2, "backoff_secs": 30 },
+      "timeout_secs": 600
+    }
+  ],
+  "on_error": "fail_fast"
+}

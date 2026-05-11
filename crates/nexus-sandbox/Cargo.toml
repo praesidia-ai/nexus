@@ -1,0 +1,25 @@
+[package]
+name = "nexus-sandbox"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "Sandboxed code execution for generated applications — Docker and process-based backends"
+
+license.workspace = true
+repository.workspace = true
+[dependencies]
+serde       = { workspace = true }
+serde_json  = { workspace = true }
+async-trait = { workspace = true }
+tokio       = { workspace = true }
+thiserror   = { workspace = true }
+tracing     = { workspace = true }
+uuid        = { workspace = true }
+chrono      = { workspace = true }
+wasmtime    = { version = "30", features = ["component-model", "async"] }
+wasmtime-wasi = { version = "30" }
+cap-std = "4.0.2"
+
+[dev-dependencies]
+tempfile = "3"
+wat = "1"

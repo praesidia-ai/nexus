@@ -1,0 +1,6 @@
+{
+  "id": "test-005",
+  "category": "test",
+  "prompt": "Write an integration test covering the full `POST /checkout` flow: validate cart, reserve inventory, charge payment, create order, send confirmation. Use an in-process SQLite + a fake payment driver. No network, no sleeps.",
+  "rubric": "5/5 if: the test covers the happy path end-to-end + the payment-failure rollback path, the fake payment driver is a trait impl (not a mock library), seed data is reset between tests, and the whole test runs in ≤ 2 s locally."
+}

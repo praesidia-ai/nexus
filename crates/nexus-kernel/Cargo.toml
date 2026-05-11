@@ -1,0 +1,27 @@
+[package]
+name = "nexus-kernel"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "Agent OS kernel — scheduler, event bus, reactive agents"
+
+license.workspace = true
+repository.workspace = true
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true }
+chrono = { workspace = true }
+uuid = { workspace = true }
+tracing = { workspace = true }
+thiserror = { workspace = true }
+reqwest = { workspace = true }
+urlencoding = "2.1"
+nexus-agents-core = { path = "../nexus-agents-core" }
+ed25519-dalek = { version = "2", features = ["rand_core"] }
+sha2 = "0.10"
+hex = "0.4"
+rand = "0.8"
+
+[dev-dependencies]
+tempfile = "3"

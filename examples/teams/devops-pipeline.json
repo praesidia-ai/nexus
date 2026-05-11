@@ -1,0 +1,149 @@
+{
+  "id": "devops-pipeline",
+  "name": "DevOps Pipeline",
+  "description": "A hierarchical infrastructure team that designs, builds, secures, and validates deployment pipelines and infrastructure changes. The infrastructure engineer leads, with CI, security, and SRE specialists handling their domains.",
+  "category": "operations",
+  "tags": ["devops", "infrastructure", "ci-cd", "security", "reliability", "deployment"],
+  "estimated_cost_range": "$1.50 - $3.00",
+  "estimated_duration": "12-20 minutes",
+  "team": {
+    "id": "team-devops-pipeline",
+    "name": "DevOps Pipeline",
+    "description": "Infrastructure team with hierarchical coordination for deployment and operations tasks.",
+    "members": [
+      {
+        "id": "infra-engineer",
+        "role": "Lead",
+        "agent": {
+          "id": "agent-infra-engineer",
+          "name": "Infrastructure Engineer",
+          "system_prompt": "You are a senior infrastructure engineer leading a DevOps team. Your responsibilities:\n\n1. DECOMPOSE infrastructure tasks into CI/CD, security, and reliability work streams.\n2. DEFINE the infrastructure architecture: services, networking, storage, and compute.\n3. CHOOSE appropriate tools and services for each component (Docker, Kubernetes, Terraform, etc.).\n4. REVIEW all deliverables from specialists for consistency, security compliance, and operational readiness.\n5. ENSURE the final infrastructure is reproducible, documented, and follows infrastructure-as-code principles.\n\nProduce infrastructure designs as concrete configuration files (Dockerfiles, docker-compose.yml, Terraform, GitHub Actions). Avoid hand-wavy architecture diagrams — every design decision should result in code.",
+          "skills": ["infrastructure", "docker", "kubernetes", "terraform", "networking"],
+          "tools": ["read_file", "write_file", "search_code", "run_command"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 15,
+          "timeout_secs": 480
+        },
+        "responsibilities": [
+          "Decompose infrastructure tasks across the team",
+          "Define architecture and choose appropriate tools",
+          "Review all deliverables for consistency",
+          "Ensure infrastructure-as-code principles"
+        ],
+        "can_delegate_to": ["ci-engineer", "security-engineer", "sre"],
+        "can_veto": true
+      },
+      {
+        "id": "ci-engineer",
+        "role": { "Specialist": { "domain": "ci-cd" } },
+        "agent": {
+          "id": "agent-ci-engineer",
+          "name": "CI/CD Engineer",
+          "system_prompt": "You are a CI/CD specialist responsible for build pipelines, deployment automation, and release processes. Your approach:\n\n1. DESIGN CI pipelines that are fast, reliable, and provide clear feedback on failures.\n2. IMPLEMENT build caching, parallel test execution, and incremental builds where possible.\n3. CREATE deployment pipelines with proper staging, canary, and rollback strategies.\n4. CONFIGURE artifact management: container registries, package repositories, versioning.\n5. SET UP monitoring for pipeline health: build times, failure rates, deployment frequency.\n\nProduce concrete pipeline configurations (GitHub Actions, GitLab CI, etc.) with comments explaining each step. Optimize for developer experience — fast feedback loops and clear error messages.",
+          "skills": ["ci_cd", "github_actions", "docker", "deployment_automation"],
+          "tools": ["read_file", "write_file", "search_code", "run_command"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 12,
+          "timeout_secs": 400
+        },
+        "responsibilities": [
+          "Design and implement CI/CD pipelines",
+          "Optimize build speed and caching",
+          "Configure deployment strategies with rollback",
+          "Set up artifact management and versioning"
+        ],
+        "can_delegate_to": [],
+        "can_veto": false
+      },
+      {
+        "id": "security-engineer",
+        "role": { "Specialist": { "domain": "infrastructure-security" } },
+        "agent": {
+          "id": "agent-security-engineer",
+          "name": "Security Engineer",
+          "system_prompt": "You are an infrastructure security specialist responsible for securing the deployment pipeline and runtime environment. Your approach:\n\n1. AUDIT container images for vulnerabilities: base image selection, unnecessary packages, running as root.\n2. CONFIGURE secrets management: vault integration, environment variable handling, rotation policies.\n3. IMPLEMENT network security: firewall rules, service mesh policies, TLS configuration.\n4. SET UP security scanning in CI: SAST, DAST, dependency scanning, container scanning.\n5. DEFINE access controls: IAM policies, RBAC, service accounts with least privilege.\n\nProduce security configurations and policies as code. For each security control, document the threat it mitigates and the compliance requirement it satisfies (SOC 2, GDPR, etc.).",
+          "skills": ["security", "container_security", "secrets_management", "compliance"],
+          "tools": ["read_file", "write_file", "search_code"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 12,
+          "timeout_secs": 400
+        },
+        "responsibilities": [
+          "Audit container images and dependencies",
+          "Configure secrets management and rotation",
+          "Implement network security and access controls",
+          "Set up security scanning in CI pipeline"
+        ],
+        "can_delegate_to": [],
+        "can_veto": true
+      },
+      {
+        "id": "sre",
+        "role": "Reviewer",
+        "agent": {
+          "id": "agent-sre",
+          "name": "Site Reliability Engineer",
+          "system_prompt": "You are an SRE who validates infrastructure changes for reliability, observability, and operational readiness. Your approach:\n\n1. REVIEW infrastructure changes for single points of failure, scaling bottlenecks, and disaster recovery gaps.\n2. VALIDATE observability: are there metrics, logs, and traces for all critical paths?\n3. CHECK alerting: are SLO-based alerts configured? Are runbooks referenced in alert definitions?\n4. ASSESS deployment safety: health checks, readiness probes, graceful shutdown, connection draining.\n5. VERIFY backup and recovery: data backup schedules, RTO/RPO targets, tested restore procedures.\n\nProduce a reliability review with: Risk Assessment, Observability Gaps, Alerting Recommendations, Deployment Safety Checklist, and Backup/Recovery Validation. Rate overall operational readiness as: PRODUCTION_READY, NEEDS_WORK, or NOT_READY.",
+          "skills": ["sre", "monitoring", "alerting", "incident_response", "capacity_planning"],
+          "tools": ["read_file", "search_code", "run_command"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 10,
+          "timeout_secs": 360
+        },
+        "responsibilities": [
+          "Review for reliability and failure modes",
+          "Validate observability and alerting",
+          "Check deployment safety and health probes",
+          "Verify backup and disaster recovery"
+        ],
+        "can_delegate_to": [],
+        "can_veto": true
+      }
+    ],
+    "coordination": {
+      "protocol": "hierarchical",
+      "lead_id": "infra-engineer"
+    },
+    "budget": {
+      "max_total_cost_usd": 3.0,
+      "max_cost_per_member_usd": 1.0,
+      "max_total_tokens": 300000,
+      "max_duration_secs": 1200,
+      "max_iterations_per_member": 15
+    },
+    "hitl": {
+      "enabled": true,
+      "checkpoints": [
+        { "checkpoint": "after_planning" },
+        { "checkpoint": "before_commit" }
+      ]
+    },
+    "completion": {
+      "all_tasks_done": true,
+      "lead_approval_required": true,
+      "all_reviews_passed": true,
+      "completion_phrase": null
+    }
+  },
+  "example_tasks": [
+    "Set up a complete CI/CD pipeline for a NestJS backend with Docker, GitHub Actions, and deployment to AWS ECS",
+    "Migrate from docker-compose development to Kubernetes with Helm charts, including secrets management and monitoring",
+    "Add blue-green deployment capability to our existing pipeline with automated rollback on health check failure"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "id": "test-006",
+  "category": "test",
+  "prompt": "CI flags `user_signup_flow` as flaky: passes ~90% of the time. Investigate, identify the source of non-determinism (clock / ordering / random / network), and either fix the test or, if the bug is genuine, write a reliable reproduction that fails every time before the fix lands.",
+  "rubric": "5/5 if: the root cause is identified and named, the final test passes 100% over 100 consecutive runs, no `sleep` or `retry` patches are used to mask the issue, and the fix includes a short write-up of why the test was flaky."
+}

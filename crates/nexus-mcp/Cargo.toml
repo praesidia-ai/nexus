@@ -1,0 +1,18 @@
+[package]
+name = "nexus-mcp"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "MCP (Model Context Protocol) client and server for Nexus"
+license.workspace = true
+
+repository.workspace = true
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+async-trait = { workspace = true }
+tokio = { workspace = true }
+reqwest = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+uuid = { workspace = true }

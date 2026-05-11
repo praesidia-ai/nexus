@@ -1,0 +1,6 @@
+{
+  "id": "bugfix-011",
+  "category": "bugfix",
+  "prompt": "`POST /api/profile` is accessible with a simple CSRF via an image tag on an attacker's site because the SameSite cookie attribute is missing. Harden cookies + add an explicit double-submit token.",
+  "rubric": "5/5 if: cookies are `SameSite=Lax; Secure; HttpOnly`, a double-submit token is required on every state-changing request, the old path returns 403 when no token is sent, and a documented test demonstrates the CSRF is now blocked."
+}

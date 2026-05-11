@@ -1,0 +1,6 @@
+{
+  "id": "bugfix-012",
+  "category": "bugfix",
+  "prompt": "Under high load the app hangs with `connection pool exhausted`. Symptom: slow background jobs holding connections too long. Fix the underlying pattern \u2014 don't just raise the pool size.",
+  "rubric": "5/5 if: the fix isolates the long-running jobs from the web pool (separate pool or queue), timeouts are enforced per checkout, a bounded wait is documented, and a load test demonstrates no hang at 2x the previous breaking point."
+}

@@ -1,0 +1,6 @@
+{
+  "id": "crud-007",
+  "category": "crud",
+  "prompt": "Add `POST /api/users/bulk` that accepts up to 500 users as a JSON array, validates each, and inserts the valid ones in a single transaction. Invalid rows are returned in a `errors` array with index + reason.",
+  "rubric": "5/5 if: the transaction is all-or-nothing only when `strict=true`; otherwise partial insert is committed and errors reported, the 500-item cap returns 413 on overflow, duplicate emails fail per-row (not whole request), and a unit test covers the strict vs lax modes."
+}

@@ -1,0 +1,6 @@
+{
+  "id": "refactor-005",
+  "category": "refactor",
+  "prompt": "The app's config is read from `process.env` ad-hoc across ~30 files. Centralise it into `src/config/index.ts` that parses + validates via Zod and fails fast on boot when a required variable is missing. Replace every `process.env.FOO` callsite with a typed access.",
+  "rubric": "5/5 if: a single Zod schema covers every known env var, boot fails with a clear message listing missing vars, no `process.env` accesses remain outside `src/config`, optional vars have documented defaults, and a snapshot test pins the schema shape."
+}

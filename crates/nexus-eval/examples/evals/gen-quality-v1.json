@@ -1,0 +1,121 @@
+{
+  "id": "gen-quality-v1",
+  "name": "Generation Quality v1",
+  "description": "Evaluates the quality of code and UI generation across a range of project descriptions, from simple to complex.",
+  "category": "generation",
+  "cases": [
+    {
+      "id": "gen-001",
+      "name": "Simple landing page",
+      "input": {
+        "type": "description",
+        "text": "Build a simple landing page with a hero section, features grid, and contact form"
+      },
+      "expected": { "type": "builds" },
+      "weight": 1.0,
+      "timeout_secs": 120
+    },
+    {
+      "id": "gen-002",
+      "name": "Todo app with auth",
+      "input": {
+        "type": "description",
+        "text": "Build a todo application with user authentication, task categories, due dates, and a responsive mobile-first design"
+      },
+      "expected": { "type": "builds_and_runs" },
+      "weight": 1.5,
+      "timeout_secs": 180
+    },
+    {
+      "id": "gen-003",
+      "name": "Dashboard with charts",
+      "input": {
+        "type": "description",
+        "text": "Build a real-time analytics dashboard with line charts, bar charts, and a data table. Include dark mode toggle and responsive layout."
+      },
+      "expected": { "type": "quality_threshold", "min_taste": 0.6 },
+      "weight": 2.0,
+      "timeout_secs": 180
+    },
+    {
+      "id": "gen-004",
+      "name": "E-commerce product page",
+      "input": {
+        "type": "description",
+        "text": "Build a product detail page for an e-commerce site with image gallery, variant selector, add-to-cart button, reviews section, and related products carousel"
+      },
+      "expected": { "type": "builds" },
+      "weight": 1.5,
+      "timeout_secs": 150
+    },
+    {
+      "id": "gen-005",
+      "name": "Blog with CMS",
+      "input": {
+        "type": "description",
+        "text": "Create a blog platform with a markdown editor, categories, tags, search, and an admin dashboard for managing posts"
+      },
+      "expected": { "type": "builds_and_runs" },
+      "weight": 2.0,
+      "timeout_secs": 240
+    },
+    {
+      "id": "gen-006",
+      "name": "Chat application",
+      "input": {
+        "type": "description",
+        "text": "Build a real-time chat application with multiple channels, direct messages, user presence indicators, and message search"
+      },
+      "expected": { "type": "quality_threshold", "min_taste": 0.5 },
+      "weight": 2.0,
+      "timeout_secs": 240
+    },
+    {
+      "id": "gen-007",
+      "name": "API documentation site",
+      "input": {
+        "type": "description",
+        "text": "Generate an API documentation website with endpoint listing, request/response examples, authentication guide, and interactive try-it-out panels"
+      },
+      "expected": { "type": "builds" },
+      "weight": 1.0,
+      "timeout_secs": 120
+    },
+    {
+      "id": "gen-008",
+      "name": "Project management board",
+      "input": {
+        "type": "description",
+        "text": "Build a Kanban-style project management board with drag-and-drop cards, swimlanes, assignees, labels, due dates, and a calendar view"
+      },
+      "expected": {
+        "type": "llm_judge",
+        "criteria": ["completeness", "structure", "clarity"]
+      },
+      "weight": 2.5,
+      "timeout_secs": 300
+    },
+    {
+      "id": "gen-009",
+      "name": "SaaS pricing page",
+      "input": {
+        "type": "description",
+        "text": "Create a SaaS pricing page with three tiers, feature comparison table, toggle between monthly and annual billing, and FAQ accordion"
+      },
+      "expected": { "type": "quality_threshold", "min_taste": 0.65 },
+      "weight": 1.5,
+      "timeout_secs": 120
+    },
+    {
+      "id": "gen-010",
+      "name": "Full-stack social app",
+      "input": {
+        "type": "description",
+        "text": "Build a social media application with user profiles, a news feed with infinite scroll, post creation with image upload, likes, comments, follow/unfollow, notifications, and a responsive mobile layout with dark mode"
+      },
+      "expected": { "type": "builds_and_runs" },
+      "weight": 3.0,
+      "timeout_secs": 360
+    }
+  ]
+}

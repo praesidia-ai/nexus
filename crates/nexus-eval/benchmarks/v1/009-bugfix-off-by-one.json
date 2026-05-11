@@ -1,0 +1,6 @@
+{
+  "id": "bugfix-003",
+  "category": "bugfix",
+  "prompt": "`formatRange(start, end)` in `src/range.ts` returns strings one character too long when `end === str.length`. Fix the off-by-one without changing the signature. The existing unit test `formatRange handles full string` fails today — it must pass after your change.",
+  "rubric": "5/5 if: the single failing test passes, no other tests regress, the fix is a one-line change (no rewrites), and a comment explains the boundary condition."
+}

@@ -1,0 +1,13 @@
+{
+  "id": "github",
+  "name": "GitHub MCP Server",
+  "transport": {
+    "type": "stdio",
+    "command": "npx",
+    "args": ["-y", "@modelcontextprotocol/server-github"]
+  },
+  "auto_connect": false,
+  "env": {
+    "GITHUB_PERSONAL_ACCESS_TOKEN": "<your-github-pat>"
+  }
+}

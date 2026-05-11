@@ -1,0 +1,6 @@
+{
+  "id": "bugfix-008",
+  "category": "bugfix",
+  "prompt": "A double-charge happens when the user hits the confirm button twice within 200 ms. Fix the issue at the API boundary, not in the frontend.",
+  "rubric": "5/5 if: the fix survives the frontend sending two requests in parallel, charge idempotency is keyed by something stronger than `request_id` alone, the fix doesn't rely on DB row-locking as a semantic (that's an artifact, not a contract), and a regression test exercises the 200 ms race."
+}

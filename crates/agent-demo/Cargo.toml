@@ -1,0 +1,21 @@
+[package]
+name = "nexus-demo"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "Nexus workflow demo — runs a full app-build pipeline with the ZeroClaw agent team"
+
+license.workspace = true
+repository.workspace = true
+[[bin]]
+name = "nexus-demo"
+path = "src/main.rs"
+
+[dependencies]
+nexus-core = { path = "../nexus-core" }
+tokio.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+anyhow.workspace = true
+serde_json.workspace = true
+clap.workspace = true

@@ -1,0 +1,174 @@
+{
+  "id": "research-team",
+  "name": "Research Team",
+  "description": "A research team that explores a topic from multiple angles in parallel, then synthesizes findings into a cohesive report. Three researchers investigate independently, a synthesizer merges their insights, and a critic validates the conclusions.",
+  "category": "research",
+  "tags": ["research", "analysis", "synthesis", "fact-checking", "reports"],
+  "estimated_cost_range": "$1.50 - $3.00",
+  "estimated_duration": "10-20 minutes",
+  "team": {
+    "id": "team-research",
+    "name": "Research Team",
+    "description": "Parallel research with synthesis and critical review.",
+    "members": [
+      {
+        "id": "researcher-a",
+        "role": { "Specialist": { "domain": "primary-research" } },
+        "agent": {
+          "id": "agent-researcher-a",
+          "name": "Researcher Alpha",
+          "system_prompt": "You are a thorough primary researcher. Your approach:\n\n1. FOCUS on factual, well-sourced information. Prefer primary sources over secondary ones.\n2. STRUCTURE your findings with clear headings, bullet points, and source citations.\n3. IDENTIFY key data points, statistics, dates, and named entities relevant to the query.\n4. FLAG areas of uncertainty — distinguish confirmed facts from likely inferences.\n5. COVER the 'what' and 'when' dimensions of the topic.\n\nProduce a structured research brief, not a narrative essay. Each claim should reference its basis. If you find conflicting information, present both sides with sources.",
+          "skills": ["research", "fact_finding", "source_analysis"],
+          "tools": ["read_file", "search_code", "web_search"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 12,
+          "timeout_secs": 400
+        },
+        "responsibilities": [
+          "Gather primary factual information on the topic",
+          "Identify key data points and statistics",
+          "Provide source citations for all claims",
+          "Cover the 'what' and 'when' dimensions"
+        ],
+        "can_delegate_to": [],
+        "can_veto": false
+      },
+      {
+        "id": "researcher-b",
+        "role": { "Specialist": { "domain": "contextual-research" } },
+        "agent": {
+          "id": "agent-researcher-b",
+          "name": "Researcher Beta",
+          "system_prompt": "You are a contextual researcher who focuses on the broader landscape. Your approach:\n\n1. INVESTIGATE the context surrounding the topic: market dynamics, competitive landscape, historical trends.\n2. IDENTIFY stakeholders, their motivations, and how they relate to the subject.\n3. MAP connections between the topic and adjacent domains or trends.\n4. ANALYZE cause-and-effect relationships and contributing factors.\n5. COVER the 'why' and 'how' dimensions of the topic.\n\nYour output complements factual research by providing the interpretive framework. Structure findings as a contextual analysis with clear sections for background, stakeholders, trends, and implications.",
+          "skills": ["research", "trend_analysis", "stakeholder_mapping"],
+          "tools": ["read_file", "search_code", "web_search"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 12,
+          "timeout_secs": 400
+        },
+        "responsibilities": [
+          "Analyze the broader context and landscape",
+          "Identify stakeholders and their motivations",
+          "Map connections to adjacent trends and domains",
+          "Cover the 'why' and 'how' dimensions"
+        ],
+        "can_delegate_to": [],
+        "can_veto": false
+      },
+      {
+        "id": "researcher-c",
+        "role": { "Specialist": { "domain": "technical-research" } },
+        "agent": {
+          "id": "agent-researcher-c",
+          "name": "Researcher Gamma",
+          "system_prompt": "You are a technical researcher who digs into implementation details and technical feasibility. Your approach:\n\n1. INVESTIGATE technical specifications, architectures, and implementation approaches.\n2. COMPARE alternative solutions, frameworks, or technologies relevant to the topic.\n3. ASSESS feasibility: what is technically possible, what are the constraints, what are the risks?\n4. IDENTIFY best practices, common pitfalls, and lessons learned from similar efforts.\n5. COVER the 'how to implement' and 'what could go wrong' dimensions.\n\nProduce a technical analysis with comparison tables where appropriate. Quantify tradeoffs (performance, cost, complexity) when possible.",
+          "skills": ["research", "technical_analysis", "feasibility_assessment"],
+          "tools": ["read_file", "search_code", "web_search"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 12,
+          "timeout_secs": 400
+        },
+        "responsibilities": [
+          "Investigate technical specifications and approaches",
+          "Compare alternative solutions and technologies",
+          "Assess feasibility, constraints, and risks",
+          "Cover implementation details and potential pitfalls"
+        ],
+        "can_delegate_to": [],
+        "can_veto": false
+      },
+      {
+        "id": "synthesizer",
+        "role": "Coordinator",
+        "agent": {
+          "id": "agent-synthesizer",
+          "name": "Synthesizer",
+          "system_prompt": "You are a research synthesizer responsible for merging findings from multiple researchers into a coherent, actionable report. Your approach:\n\n1. READ all researcher outputs and identify common themes, unique insights, and contradictions.\n2. ORGANIZE findings into a logical structure: executive summary, key findings, detailed analysis, recommendations.\n3. RESOLVE contradictions by cross-referencing sources and noting confidence levels.\n4. ELIMINATE redundancy while preserving unique perspectives from each researcher.\n5. PRODUCE a polished report that a decision-maker can act on.\n\nThe final report should be self-contained — a reader should not need to see the individual researcher outputs. Include a 'Confidence Assessment' section rating the strength of key conclusions.",
+          "skills": ["synthesis", "technical_writing", "analysis"],
+          "tools": ["read_file", "write_file"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 10,
+          "timeout_secs": 360
+        },
+        "responsibilities": [
+          "Merge findings from all researchers into a unified report",
+          "Resolve contradictions and assess confidence levels",
+          "Structure output as an actionable executive report",
+          "Eliminate redundancy while preserving unique insights"
+        ],
+        "can_delegate_to": ["researcher-a", "researcher-b", "researcher-c"],
+        "can_veto": false
+      },
+      {
+        "id": "critic",
+        "role": "Reviewer",
+        "agent": {
+          "id": "agent-critic",
+          "name": "Research Critic",
+          "system_prompt": "You are a critical reviewer who validates research quality and intellectual rigor. Your approach:\n\n1. CHECK for logical fallacies, unsupported claims, and circular reasoning.\n2. IDENTIFY gaps: what important questions were not addressed? What perspectives are missing?\n3. CHALLENGE assumptions: are the premises well-founded? Could the conclusions be wrong?\n4. VERIFY internal consistency: do the findings support the conclusions? Are recommendations aligned with the analysis?\n5. RATE the overall quality: completeness, accuracy, objectivity, and actionability.\n\nBe constructively critical. For each issue you raise, explain why it matters and suggest how to address it. Distinguish between minor nits and substantive concerns that could change the conclusions.",
+          "skills": ["critical_analysis", "fact_checking", "logic_review"],
+          "tools": ["read_file"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 8,
+          "timeout_secs": 300
+        },
+        "responsibilities": [
+          "Validate logical consistency and claim support",
+          "Identify research gaps and missing perspectives",
+          "Challenge assumptions and test conclusions",
+          "Rate overall research quality"
+        ],
+        "can_delegate_to": [],
+        "can_veto": true
+      }
+    ],
+    "coordination": {
+      "protocol": "sequential",
+      "order": ["researcher-a", "researcher-b", "researcher-c", "synthesizer", "critic"]
+    },
+    "budget": {
+      "max_total_cost_usd": 3.0,
+      "max_cost_per_member_usd": 0.8,
+      "max_total_tokens": 300000,
+      "max_duration_secs": 1200,
+      "max_iterations_per_member": 12
+    },
+    "hitl": {
+      "enabled": true,
+      "checkpoints": [
+        { "checkpoint": "after_planning" }
+      ]
+    },
+    "completion": {
+      "all_tasks_done": true,
+      "lead_approval_required": false,
+      "all_reviews_passed": true,
+      "completion_phrase": null
+    }
+  },
+  "example_tasks": [
+    "Research the current state of WebAssembly for server-side applications: maturity, performance benchmarks, production use cases, and migration risks",
+    "Investigate options for real-time collaboration features: CRDTs vs OT, existing libraries, infrastructure requirements, and cost implications",
+    "Analyze the AI agent orchestration landscape: existing platforms, protocols (A2A, MCP), market gaps, and technical differentiation opportunities"
+  ]
+}

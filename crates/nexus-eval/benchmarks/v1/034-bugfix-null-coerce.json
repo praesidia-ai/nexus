@@ -1,0 +1,6 @@
+{
+  "id": "bugfix-009",
+  "category": "bugfix",
+  "prompt": "In `src/totals.ts`, `sum(undefined)` silently returns `NaN`, which propagates through every downstream invoice. Fix the root cause without adding runtime type assertions everywhere.",
+  "rubric": "5/5 if: TypeScript compile-time types now forbid the bad callsite, the existing call chain is updated accordingly, no `any` is introduced, and the fix is verified by a failing type-level test that now passes."
+}

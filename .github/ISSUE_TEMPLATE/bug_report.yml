@@ -1,0 +1,74 @@
+name: Bug report
+description: Report a bug or unexpected behavior in Nexus
+title: "[bug] "
+labels: [bug, triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a report. Please fill in as much as
+        you can — the more context, the faster we can help.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: A clear, concise description of the bug.
+      placeholder: "When I click Generate on the dashboard, the stream aborts with..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Exact steps a maintainer can follow to hit the bug locally.
+      placeholder: |
+        1. `docker compose up -d`
+        2. POST /projects with ...
+        3. Observe ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      placeholder: The stream should complete with a `complete` SSE event.
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Nexus version / commit
+      placeholder: "v0.1.0 or git SHA"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Environment
+      options:
+        - Docker Compose (local)
+        - Docker Compose (production)
+        - `cargo run` (dev)
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      description: Paste any tracing output, stack traces, or network-tab details. Redact secrets.
+      render: shell
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      options:
+        - label: I agree to follow the [Code of Conduct](../CODE_OF_CONDUCT.md).
+          required: true

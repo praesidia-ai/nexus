@@ -1,0 +1,90 @@
+{
+  "domain": "education",
+  "triggers": ["education", "course", "student", "learning", "classroom", "LMS", "school", "university", "assignment", "grade"],
+  "default_entities": [
+    {
+      "name": "Course",
+      "fields": ["id", "title", "description", "instructor_id", "category", "difficulty_level", "duration_hours", "max_students", "status"]
+    },
+    {
+      "name": "Student",
+      "fields": ["id", "first_name", "last_name", "email", "enrollment_date", "courses", "grade_average"]
+    },
+    {
+      "name": "Assignment",
+      "fields": ["id", "course_id", "title", "description", "due_date", "max_score", "type", "attachments"]
+    },
+    {
+      "name": "Submission",
+      "fields": ["id", "assignment_id", "student_id", "submitted_at", "content", "attachments", "score", "feedback"]
+    },
+    {
+      "name": "Instructor",
+      "fields": ["id", "first_name", "last_name", "email", "department", "courses", "bio"]
+    },
+    {
+      "name": "Enrollment",
+      "fields": ["id", "student_id", "course_id", "enrolled_at", "status", "final_grade"]
+    }
+  ],
+  "default_pages": [
+    {
+      "name": "Course Catalog",
+      "route": "/courses",
+      "description": "Browsable course catalog with search, filtering by category and difficulty"
+    },
+    {
+      "name": "Course Detail",
+      "route": "/courses/:id",
+      "description": "Course overview with syllabus, assignments, enrolled students, and progress"
+    },
+    {
+      "name": "Gradebook",
+      "route": "/gradebook",
+      "description": "Instructor view of all student grades with bulk grading and export"
+    },
+    {
+      "name": "Submissions",
+      "route": "/submissions",
+      "description": "Assignment submission portal with file upload and inline feedback"
+    },
+    {
+      "name": "Student Dashboard",
+      "route": "/dashboard",
+      "description": "Student overview of enrolled courses, upcoming deadlines, and grades"
+    },
+    {
+      "name": "Analytics",
+      "route": "/analytics",
+      "description": "Learning analytics: completion rates, grade distributions, engagement metrics"
+    }
+  ],
+  "hidden_requirements": [
+    {
+      "category": "compliance",
+      "description": "FERPA compliance: student records must be protected and access logged",
+      "priority": "Critical"
+    },
+    {
+      "category": "accessibility",
+      "description": "WCAG 2.1 AA compliance for all learning interfaces",
+      "priority": "Important"
+    },
+    {
+      "category": "security",
+      "description": "Role-based access: separate views for students, instructors, and administrators",
+      "priority": "Critical"
+    },
+    {
+      "category": "data",
+      "description": "Assignment submissions must support file uploads up to 50MB with virus scanning",
+      "priority": "Important"
+    },
+    {
+      "category": "notifications",
+      "description": "Email notifications for assignment deadlines, grade postings, and announcements",
+      "priority": "NiceToHave"
+    }
+  ],
+  "ui_style_hint": "Modern"
+}

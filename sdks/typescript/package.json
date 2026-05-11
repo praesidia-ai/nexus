@@ -1,0 +1,15 @@
+{
+  "name": "@nexus-ai/sdk",
+  "version": "0.1.0",
+  "description": "TypeScript SDK for Nexus AI agent platform",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo ok"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  }
+}

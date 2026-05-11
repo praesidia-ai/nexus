@@ -1,0 +1,6 @@
+{
+  "id": "test-001",
+  "category": "test",
+  "prompt": "Write a Jest test for `parsePriceInput` in `src/price.ts`. Cover: happy path (integer), happy path (decimal), leading zero, negative, empty string, non-numeric. Put the test at `src/__tests__/price.test.ts`.",
+  "rubric": "5/5 if: all six cases are covered, the file runs under `npm test` without any other changes, assertions use `expect(...).toEqual(...)` / `toBeNull()` where appropriate, and one case uses `describe.each` for parameterisation."
+}

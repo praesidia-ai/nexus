@@ -1,0 +1,6 @@
+{
+  "id": "refactor-010",
+  "category": "refactor",
+  "prompt": "`status: string` appears in 18 places with a fixed set of 6 valid values. Introduce a proper enum type + a migration that updates the DB column to an enum-like CHECK constraint.",
+  "rubric": "5/5 if: invalid strings are rejected at compile time, the DB check constraint matches, the migration is safe for existing rows (no data loss), and pattern-matching in Rust/TS is exhaustive."
+}

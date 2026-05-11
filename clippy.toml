@@ -1,0 +1,32 @@
+## Workspace clippy configuration.
+#
+# Per ADR-003 + Phase 1 #11: discourage panic-prone patterns in production code.
+#
+# Production CI runs:
+#   cargo clippy --workspace --all-targets -- -D warnings
+#
+# `unwrap_used` and `panic` are NOT promoted to `-D` yet — the codebase has
+# 899 pre-existing `unwrap()` sites identified by:
+#   cargo clippy -p nexus-http --lib -- -W clippy::unwrap_used
+# Promoting before sweeping would block CI. Plan: each handler PR removes its
+# own unwrap calls; once count reaches 0 in `nexus-http/src`, enable `-D`
+# crate-by-crate. New code must avoid `unwrap()` outside `#[cfg(test)]`.
+
+# Disallowed methods: methods that nearly always indicate a bug or shortcut.
+disallowed-methods = [
+    { path = "std::option::Option::unwrap", reason = "use `?`, `expect(...)`, or `unwrap_or_else`. Tests may allow." },
+    { path = "std::result::Result::unwrap", reason = "use `?` or `expect(...)` with a clear failure message." },
+]
+
+# Banned types in handler/library code (tests are still fine).
+disallowed-types = [
+    # Reserved for future use — keep empty until consumers identify them.
+]
+
+# Cognitive-complexity ceiling per function. Aligns with the "handler files
+# are too big" pattern surfaced in NEXUS_FEATURE_AUDIT §1.6.
+cognitive-complexity-threshold = 30
+
+# Single-letter binding names are fine in math; this just bumps the lint above
+# the default so we don't spam.
+single-char-binding-names-threshold = 4

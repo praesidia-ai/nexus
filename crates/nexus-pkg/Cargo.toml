@@ -1,0 +1,32 @@
+[package]
+name = "nexus-pkg"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "Nexus Agent Package Manager — install, publish, and version agent packages"
+
+repository.workspace = true
+[[bin]]
+name = "nexus-pkg"
+path = "src/main.rs"
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+anyhow = { workspace = true }
+chrono = { workspace = true }
+uuid = { workspace = true }
+thiserror = { workspace = true }
+reqwest = { version = "0.12", features = ["json", "stream", "rustls-tls", "multipart"] }
+clap = { version = "4.5", features = ["derive", "env"] }
+toml = "0.8"
+semver = "1.0"
+sha2 = "0.10"
+hex = "0.4"
+flate2 = "1.0"
+tar = "0.4"
+dirs-next = "2.0"

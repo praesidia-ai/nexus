@@ -1,0 +1,24 @@
+[package]
+name = "nexus-cli"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "Nexus CLI — AI-native application generation and agent teams"
+
+license.workspace = true
+repository.workspace = true
+[[bin]]
+name = "nexus"
+path = "src/main.rs"
+
+[dependencies]
+clap = { version = "4.5", features = ["derive", "env"] }
+serde = { workspace = true }
+serde_json.workspace = true
+tokio.workspace = true
+reqwest.workspace = true
+anyhow.workspace = true
+nexus-pkg = { path = "../nexus-pkg" }
+nexus-mcp = { path = "../nexus-mcp" }
+nexus-acp = { path = "../nexus-acp" }
+tracing = { workspace = true }

@@ -1,0 +1,6 @@
+{
+  "id": "test-011",
+  "category": "test",
+  "prompt": "Add a `cargo-fuzz` target for the JSON-body parser in `src/parse.rs`. It must survive 60 s of fuzzing without a crash on the main branch.",
+  "rubric": "5/5 if: the target is in a dedicated `fuzz/` dir, the corpus seeds are committed, the fuzz job runs 60 s in CI once a day, coverage is reported, and any new crashes are automatically minimised."
+}

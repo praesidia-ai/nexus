@@ -1,0 +1,6 @@
+{
+  "id": "test-007",
+  "category": "test",
+  "prompt": "Write a contract test that pins the JSON shape of `GET /api/me`. Any new field requires updating the snapshot explicitly.",
+  "rubric": "5/5 if: the snapshot is stored as a file (not inline), field order is stable, a required-field removal fails the test, a new additive field fails the test (explicit opt-in), and the update command is documented."
+}

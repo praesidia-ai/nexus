@@ -1,0 +1,6 @@
+{
+  "id": "crud-003",
+  "category": "crud",
+  "prompt": "Convert `DELETE /api/comments/:id` from a hard delete into a soft delete. Add a `deleted_at` column, default to null, and exclude soft-deleted rows from every read path in `src/comments.ts`. Existing callers must see no behavior change for non-deleted rows.",
+  "rubric": "5/5 if: migration is additive (no data loss), every read filters `deleted_at IS NULL`, a new `GET /api/comments/:id?include_deleted=1` surface is provided, and tests cover both the happy path and the deleted-row-hidden path."
+}

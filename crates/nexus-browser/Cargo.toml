@@ -1,0 +1,22 @@
+[package]
+name = "nexus-browser"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "Browser automation agent — Playwright/CDP-based web interaction, E2E testing, visual verification"
+
+license.workspace = true
+repository.workspace = true
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true }
+tracing = { workspace = true }
+thiserror = { workspace = true }
+chrono = { workspace = true }
+uuid = { workspace = true }
+reqwest = { workspace = true }
+async-trait = { workspace = true }
+
+[dev-dependencies]
+tempfile = "3"

@@ -1,0 +1,6 @@
+{
+  "id": "crud-012",
+  "category": "crud",
+  "prompt": "Add `POST /api/webhooks/:id/replay?after=<ts>` that re-emits every webhook delivery since a timestamp to the same target URL, respecting the existing retry/backoff logic.",
+  "rubric": "5/5 if: the replay queue is separate from the live queue (no interleaving), replayed deliveries carry an `X-Replay: 1` header, the endpoint requires `Scope::Admin`, and a dry-run flag returns the count without sending."
+}

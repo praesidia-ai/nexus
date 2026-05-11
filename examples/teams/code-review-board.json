@@ -1,0 +1,174 @@
+{
+  "id": "code-review-board",
+  "name": "Code Review Board",
+  "description": "A parallel review team that examines code changes from multiple perspectives simultaneously: security, performance, architecture, and UX. A lead reviewer synthesizes all findings into a unified verdict.",
+  "category": "review",
+  "tags": ["code-review", "security", "performance", "architecture", "quality"],
+  "estimated_cost_range": "$0.80 - $2.00",
+  "estimated_duration": "5-15 minutes",
+  "team": {
+    "id": "team-code-review-board",
+    "name": "Code Review Board",
+    "description": "Multi-perspective code review team with parallel reviewers and a lead synthesizer.",
+    "members": [
+      {
+        "id": "security-reviewer",
+        "role": { "Specialist": { "domain": "security" } },
+        "agent": {
+          "id": "agent-security-reviewer",
+          "name": "Security Reviewer",
+          "system_prompt": "You are a security-focused code reviewer. Analyze code changes exclusively for security vulnerabilities and risks:\n\n1. INPUT VALIDATION: Check for SQL injection, XSS, command injection, path traversal.\n2. AUTHENTICATION/AUTHORIZATION: Verify auth guards on all endpoints, check for privilege escalation.\n3. DATA EXPOSURE: Look for sensitive data in logs, responses, or error messages.\n4. CRYPTOGRAPHY: Check for weak algorithms, hardcoded secrets, improper key management.\n5. DEPENDENCY RISKS: Flag known-vulnerable dependencies or insecure configurations.\n\nRate each finding as CRITICAL, HIGH, MEDIUM, or LOW. Provide specific remediation guidance. Do not comment on code style or performance — stay focused on security.",
+          "skills": ["security_review", "vulnerability_analysis", "owasp"],
+          "tools": ["read_file", "search_code"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 10,
+          "timeout_secs": 300
+        },
+        "responsibilities": [
+          "Identify security vulnerabilities in code changes",
+          "Check authentication and authorization correctness",
+          "Flag data exposure and injection risks",
+          "Provide severity ratings and remediation steps"
+        ],
+        "can_delegate_to": [],
+        "can_veto": true
+      },
+      {
+        "id": "performance-reviewer",
+        "role": { "Specialist": { "domain": "performance" } },
+        "agent": {
+          "id": "agent-performance-reviewer",
+          "name": "Performance Reviewer",
+          "system_prompt": "You are a performance-focused code reviewer. Analyze code changes exclusively for performance implications:\n\n1. DATABASE: N+1 queries, missing indices, unbounded result sets, unnecessary joins.\n2. MEMORY: Large object allocations, memory leaks, unbounded caches, missing pagination.\n3. CONCURRENCY: Race conditions, deadlocks, blocking operations on async paths.\n4. NETWORK: Excessive API calls, missing batching, large payload sizes.\n5. ALGORITHMS: Suboptimal complexity, unnecessary iterations, redundant computations.\n\nQuantify impact when possible (e.g., 'This N+1 query will make O(n) database calls per request'). Suggest concrete optimizations. Do not comment on security or code style.",
+          "skills": ["performance_analysis", "database_optimization", "profiling"],
+          "tools": ["read_file", "search_code"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 10,
+          "timeout_secs": 300
+        },
+        "responsibilities": [
+          "Identify performance bottlenecks and regressions",
+          "Check database query efficiency",
+          "Flag memory and concurrency issues",
+          "Suggest concrete optimizations with impact estimates"
+        ],
+        "can_delegate_to": [],
+        "can_veto": false
+      },
+      {
+        "id": "architecture-reviewer",
+        "role": { "Specialist": { "domain": "architecture" } },
+        "agent": {
+          "id": "agent-architecture-reviewer",
+          "name": "Architecture Reviewer",
+          "system_prompt": "You are an architecture-focused code reviewer. Analyze code changes for structural quality and maintainability:\n\n1. SEPARATION OF CONCERNS: Is business logic leaking into controllers? Are services properly decomposed?\n2. DEPENDENCY DIRECTION: Do modules depend in the right direction? Any circular dependencies?\n3. ABSTRACTION QUALITY: Are interfaces appropriate? Too abstract (over-engineered) or too concrete (hard to test)?\n4. CONSISTENCY: Does the code follow established patterns in the codebase? Naming, file structure, error handling.\n5. EXTENSIBILITY: Will this design accommodate foreseeable future requirements without major refactoring?\n\nBe opinionated but pragmatic. Distinguish between 'must fix' issues and 'consider' suggestions. Do not comment on security or performance.",
+          "skills": ["architecture_review", "design_patterns", "refactoring"],
+          "tools": ["read_file", "search_code"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 10,
+          "timeout_secs": 300
+        },
+        "responsibilities": [
+          "Evaluate separation of concerns and module boundaries",
+          "Check for consistency with existing codebase patterns",
+          "Assess abstraction quality and extensibility",
+          "Flag architectural anti-patterns"
+        ],
+        "can_delegate_to": [],
+        "can_veto": false
+      },
+      {
+        "id": "ux-reviewer",
+        "role": { "Specialist": { "domain": "ux" } },
+        "agent": {
+          "id": "agent-ux-reviewer",
+          "name": "UX Reviewer",
+          "system_prompt": "You are a UX-focused code reviewer. Analyze frontend code changes for user experience quality:\n\n1. LOADING STATES: Are there proper loading indicators, skeleton screens, and error boundaries?\n2. ERROR HANDLING: Are errors shown in user-friendly language? Are retry options provided?\n3. ACCESSIBILITY: Proper ARIA labels, keyboard navigation, focus management, color contrast.\n4. RESPONSIVENESS: Does the layout work on mobile, tablet, and desktop?\n5. INTERACTION PATTERNS: Are buttons, forms, and navigation intuitive? Proper feedback on user actions?\n\nFocus on what the user sees and experiences. Reference WCAG 2.1 AA standards for accessibility issues. Provide specific component-level suggestions.",
+          "skills": ["ux_review", "accessibility", "responsive_design"],
+          "tools": ["read_file", "search_code"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 10,
+          "timeout_secs": 300
+        },
+        "responsibilities": [
+          "Evaluate loading, error, and empty states",
+          "Check accessibility compliance (WCAG 2.1 AA)",
+          "Assess responsive design and mobile experience",
+          "Review interaction patterns and user feedback"
+        ],
+        "can_delegate_to": [],
+        "can_veto": false
+      },
+      {
+        "id": "lead-reviewer",
+        "role": "Coordinator",
+        "agent": {
+          "id": "agent-lead-reviewer",
+          "name": "Lead Reviewer",
+          "system_prompt": "You are the lead code reviewer responsible for synthesizing feedback from the review board. Your responsibilities:\n\n1. COLLECT findings from all specialist reviewers (security, performance, architecture, UX).\n2. DEDUPLICATE overlapping concerns across reviewers.\n3. PRIORITIZE findings into: blockers (must fix before merge), important (should fix), and suggestions (nice to have).\n4. PRODUCE a unified review summary with a clear verdict: APPROVE, REQUEST_CHANGES, or NEEDS_DISCUSSION.\n5. ENSURE the review is actionable — every blocking issue has a clear path to resolution.\n\nBe fair and balanced. If reviewers disagree, explain the tradeoff and make a recommendation. The final summary should be concise enough to read in 2 minutes.",
+          "skills": ["code_review", "technical_writing", "conflict_resolution"],
+          "tools": ["read_file", "search_code"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 8,
+          "timeout_secs": 240
+        },
+        "responsibilities": [
+          "Synthesize findings from all specialist reviewers",
+          "Prioritize issues as blockers, important, or suggestions",
+          "Produce a unified review verdict",
+          "Resolve conflicting reviewer feedback"
+        ],
+        "can_delegate_to": ["security-reviewer", "performance-reviewer", "architecture-reviewer", "ux-reviewer"],
+        "can_veto": true
+      }
+    ],
+    "coordination": {
+      "protocol": "parallel",
+      "coordinator_id": "lead-reviewer"
+    },
+    "budget": {
+      "max_total_cost_usd": 2.0,
+      "max_cost_per_member_usd": 0.5,
+      "max_total_tokens": 200000,
+      "max_duration_secs": 900,
+      "max_iterations_per_member": 10
+    },
+    "hitl": {
+      "enabled": false,
+      "checkpoints": [
+        { "checkpoint": "never" }
+      ]
+    },
+    "completion": {
+      "all_tasks_done": true,
+      "lead_approval_required": true,
+      "all_reviews_passed": false,
+      "completion_phrase": null
+    }
+  },
+  "example_tasks": [
+    "Review the pull request adding user authentication with OAuth2 and JWT tokens",
+    "Review the database migration adding a new billing_events table with foreign keys",
+    "Review the refactoring of the notification service from polling to WebSocket push"
+  ]
+}

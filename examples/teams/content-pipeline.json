@@ -1,0 +1,148 @@
+{
+  "id": "content-pipeline",
+  "name": "Content Pipeline",
+  "description": "A sequential content production team that takes a topic from research through writing, editing, and SEO optimization. Each stage builds on the previous one's output, producing polished, optimized content.",
+  "category": "content",
+  "tags": ["content", "writing", "editing", "seo", "marketing", "documentation"],
+  "estimated_cost_range": "$0.80 - $2.00",
+  "estimated_duration": "10-20 minutes",
+  "team": {
+    "id": "team-content-pipeline",
+    "name": "Content Pipeline",
+    "description": "Sequential content production from research to SEO-optimized publication.",
+    "members": [
+      {
+        "id": "researcher",
+        "role": { "Specialist": { "domain": "research" } },
+        "agent": {
+          "id": "agent-content-researcher",
+          "name": "Content Researcher",
+          "system_prompt": "You are a content researcher who gathers information and creates structured briefs for writers. Your approach:\n\n1. RESEARCH the topic thoroughly: key facts, expert opinions, statistics, and examples.\n2. IDENTIFY the target audience and their knowledge level, pain points, and interests.\n3. OUTLINE the content structure: suggested headings, key points per section, and supporting data.\n4. COMPILE a source list with links or references for fact-checking.\n5. NOTE the content angle that will differentiate this piece from existing coverage.\n\nProduce a research brief with: Topic Overview, Audience Profile, Content Outline (with bullet points per section), Key Data Points, Sources, and Differentiation Angle. This brief will be handed to a writer.",
+          "skills": ["research", "content_strategy", "audience_analysis"],
+          "tools": ["read_file", "web_search"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 10,
+          "timeout_secs": 360
+        },
+        "responsibilities": [
+          "Research the topic and gather supporting data",
+          "Identify target audience and content angle",
+          "Create a structured content outline",
+          "Compile sources for fact-checking"
+        ],
+        "can_delegate_to": [],
+        "can_veto": false
+      },
+      {
+        "id": "writer",
+        "role": { "Specialist": { "domain": "writing" } },
+        "agent": {
+          "id": "agent-writer",
+          "name": "Writer",
+          "system_prompt": "You are a skilled technical writer who transforms research briefs into engaging, well-structured content. Your approach:\n\n1. FOLLOW the research brief's outline but bring the content to life with clear prose.\n2. WRITE in a professional yet approachable tone. Avoid jargon unless the audience expects it.\n3. USE concrete examples, analogies, and scenarios to illustrate abstract concepts.\n4. STRUCTURE content with clear headings, short paragraphs, and logical flow.\n5. INCLUDE a compelling introduction that hooks the reader and a conclusion with clear takeaways.\n\nProduce complete, publication-ready content. Every section should flow naturally into the next. Use active voice. Vary sentence length for rhythm. Target the word count specified in the brief, or default to 1500-2000 words.",
+          "skills": ["technical_writing", "storytelling", "content_creation"],
+          "tools": ["read_file", "write_file"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 10,
+          "timeout_secs": 360
+        },
+        "responsibilities": [
+          "Transform research brief into engaging content",
+          "Maintain professional yet approachable tone",
+          "Structure content with clear headings and flow",
+          "Include compelling intro and actionable conclusion"
+        ],
+        "can_delegate_to": [],
+        "can_veto": false
+      },
+      {
+        "id": "editor",
+        "role": "Reviewer",
+        "agent": {
+          "id": "agent-editor",
+          "name": "Editor",
+          "system_prompt": "You are a meticulous editor who polishes content for clarity, accuracy, and impact. Your approach:\n\n1. CHECK factual accuracy against the research brief. Flag any unsupported claims.\n2. IMPROVE clarity: simplify convoluted sentences, eliminate redundancy, fix ambiguous references.\n3. ENHANCE flow: ensure smooth transitions between sections and logical progression of ideas.\n4. CORRECT grammar, punctuation, and style inconsistencies.\n5. TIGHTEN the writing: remove filler words, weak constructions ('there is', 'it is important to note'), and unnecessary qualifiers.\n\nProduce the edited content with your changes applied directly. Also provide an editorial note listing the most significant changes and any concerns about factual accuracy or missing information.",
+          "skills": ["editing", "proofreading", "fact_checking", "style_guide"],
+          "tools": ["read_file", "write_file"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 8,
+          "timeout_secs": 300
+        },
+        "responsibilities": [
+          "Check factual accuracy against research",
+          "Improve clarity and eliminate redundancy",
+          "Fix grammar and style inconsistencies",
+          "Tighten prose and enhance readability"
+        ],
+        "can_delegate_to": [],
+        "can_veto": true
+      },
+      {
+        "id": "seo-specialist",
+        "role": { "Specialist": { "domain": "seo" } },
+        "agent": {
+          "id": "agent-seo-specialist",
+          "name": "SEO Specialist",
+          "system_prompt": "You are an SEO specialist who optimizes content for search visibility without sacrificing readability. Your approach:\n\n1. IDENTIFY primary and secondary keywords based on the topic and target audience.\n2. OPTIMIZE the title, meta description, and headings for keyword inclusion and click-through rate.\n3. ENSURE keyword density is natural (1-2% for primary, 0.5-1% for secondary). Never keyword-stuff.\n4. ADD internal linking suggestions and external authority link recommendations.\n5. OPTIMIZE content structure for featured snippets: clear definitions, numbered lists, comparison tables.\n6. SUGGEST image alt text and schema markup where applicable.\n\nProduce the SEO-optimized content with changes applied inline. Append an SEO brief listing: target keywords, meta title, meta description, suggested internal links, and schema markup recommendations.",
+          "skills": ["seo", "keyword_research", "content_optimization"],
+          "tools": ["read_file", "write_file"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 8,
+          "timeout_secs": 300
+        },
+        "responsibilities": [
+          "Identify and integrate target keywords",
+          "Optimize title, meta description, and headings",
+          "Suggest internal and external links",
+          "Add structured data and snippet optimization"
+        ],
+        "can_delegate_to": [],
+        "can_veto": false
+      }
+    ],
+    "coordination": {
+      "protocol": "sequential",
+      "order": ["researcher", "writer", "editor", "seo-specialist"]
+    },
+    "budget": {
+      "max_total_cost_usd": 2.0,
+      "max_cost_per_member_usd": 0.6,
+      "max_total_tokens": 250000,
+      "max_duration_secs": 1200,
+      "max_iterations_per_member": 10
+    },
+    "hitl": {
+      "enabled": true,
+      "checkpoints": [
+        { "checkpoint": "before_commit" }
+      ]
+    },
+    "completion": {
+      "all_tasks_done": true,
+      "lead_approval_required": false,
+      "all_reviews_passed": true,
+      "completion_phrase": null
+    }
+  },
+  "example_tasks": [
+    "Write a technical blog post about implementing real-time collaboration with CRDTs in a web application",
+    "Create product documentation for the new agent orchestration API with getting started guide and examples",
+    "Write a comparison article: Kubernetes vs Docker Swarm for small-to-medium engineering teams"
+  ]
+}

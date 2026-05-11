@@ -1,0 +1,6 @@
+{
+  "id": "test-009",
+  "category": "test",
+  "prompt": "For a text-transformer function, replace the 20 hand-written assertions with a golden-file-based test: inputs in `fixtures/inputs/*.txt`, expected outputs in `fixtures/expected/*.txt`.",
+  "rubric": "5/5 if: the test auto-discovers fixtures, prints a clear diff on mismatch, supports an `UPDATE_GOLDENS=1` env to regenerate, and documents the review process for golden changes."
+}

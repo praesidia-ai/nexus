@@ -1,0 +1,6 @@
+{
+  "id": "crud-011",
+  "category": "crud",
+  "prompt": "Add `GET /api/orders/export.csv` that streams a CSV of the caller's orders. Must work for 100k-row tenants without buffering the whole result in memory.",
+  "rubric": "5/5 if: the response streams line-by-line (no Transfer-Encoding: chunked buffering), CSV escapes commas/quotes/newlines correctly, the first row is a stable header, and cancelling the request aborts the DB cursor."
+}

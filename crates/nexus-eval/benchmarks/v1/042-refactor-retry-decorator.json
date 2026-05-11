@@ -1,0 +1,6 @@
+{
+  "id": "refactor-011",
+  "category": "refactor",
+  "prompt": "Twelve endpoints wrap their HTTP calls in a bespoke retry loop with subtly different logic. Replace them with one `Retry` decorator/middleware that takes `{max, backoff, retry_on}`.",
+  "rubric": "5/5 if: every existing endpoint uses the shared decorator, retry semantics are byte-identical to the originals, logs carry `retry_attempt` + `retry_reason`, and two of the original bespoke loops are verified removed."
+}

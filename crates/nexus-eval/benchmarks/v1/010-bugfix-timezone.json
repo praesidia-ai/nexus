@@ -1,0 +1,6 @@
+{
+  "id": "bugfix-004",
+  "category": "bugfix",
+  "prompt": "The daily-digest cron sends the digest at 8 AM UTC but users in Japan report receiving it at 5 PM local. Requirement is: every user's digest fires at 8 AM in *their* timezone. Fix the scheduler in `src/cron/digest.ts` to honour each user's `tz` field.",
+  "rubric": "5/5 if: scheduling is per-user in their own timezone, DST transitions are handled correctly, missed-window handling is documented, and no user receives duplicate digests across the DST boundary."
+}

@@ -1,0 +1,6 @@
+{
+  "id": "test-002",
+  "category": "test",
+  "prompt": "Add property-based tests for `mergeIntervals(intervals)` in `src/intervals.ts` using `fast-check`. Properties: (1) result is sorted, (2) no overlaps in the output, (3) union of output covers same set as union of input, (4) output length ≤ input length.",
+  "rubric": "5/5 if: all four properties are exercised, `fast-check` is used correctly (parameterised runs, not per-case loops), shrink cases are meaningful, and the tests run in ≤ 1 second locally."
+}

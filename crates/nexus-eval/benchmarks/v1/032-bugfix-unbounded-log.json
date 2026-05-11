@@ -1,0 +1,6 @@
+{
+  "id": "bugfix-007",
+  "category": "bugfix",
+  "prompt": "`tail -F /var/log/app.log | jq` crashes the logger process because a single line can exceed 1 MB. Fix the log writer to split messages above 128 KB into continuation lines with a stable sequence marker.",
+  "rubric": "5/5 if: no line written is larger than 128 KB, continuation markers parse deterministically, JSON-line readers survive across the split, and an existing slow consumer is not disconnected by the change."
+}

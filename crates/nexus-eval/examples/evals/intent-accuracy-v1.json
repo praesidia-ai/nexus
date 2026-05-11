@@ -1,0 +1,158 @@
+{
+  "id": "intent-accuracy-v1",
+  "name": "Intent Accuracy v1",
+  "description": "Evaluates how accurately the intent engine classifies user utterances across common intent categories.",
+  "category": "intent_accuracy",
+  "cases": [
+    {
+      "id": "intent-001",
+      "name": "Create landing page intent",
+      "input": {
+        "type": "intent_pair",
+        "utterance": "I need a landing page for my new SaaS product",
+        "expected_intent": "create_landing"
+      },
+      "expected": {
+        "type": "field_match",
+        "checks": [{ "field": "intent", "expected": "create_landing" }]
+      },
+      "weight": 1.0,
+      "timeout_secs": 10
+    },
+    {
+      "id": "intent-002",
+      "name": "Build dashboard intent",
+      "input": {
+        "type": "intent_pair",
+        "utterance": "I want to build an analytics dashboard with charts and graphs",
+        "expected_intent": "create_dashboard"
+      },
+      "expected": {
+        "type": "field_match",
+        "checks": [{ "field": "intent", "expected": "create_dashboard" }]
+      },
+      "weight": 1.0,
+      "timeout_secs": 10
+    },
+    {
+      "id": "intent-003",
+      "name": "Fix bug intent",
+      "input": {
+        "type": "intent_pair",
+        "utterance": "The login button doesn't work on mobile, can you fix it?",
+        "expected_intent": "fix_bug"
+      },
+      "expected": {
+        "type": "field_match",
+        "checks": [{ "field": "intent", "expected": "fix_bug" }]
+      },
+      "weight": 1.5,
+      "timeout_secs": 10
+    },
+    {
+      "id": "intent-004",
+      "name": "Add feature intent",
+      "input": {
+        "type": "intent_pair",
+        "utterance": "Add a dark mode toggle to the settings page",
+        "expected_intent": "add_feature"
+      },
+      "expected": {
+        "type": "field_match",
+        "checks": [{ "field": "intent", "expected": "add_feature" }]
+      },
+      "weight": 1.0,
+      "timeout_secs": 10
+    },
+    {
+      "id": "intent-005",
+      "name": "Refactor code intent",
+      "input": {
+        "type": "intent_pair",
+        "utterance": "Refactor the authentication module to use dependency injection",
+        "expected_intent": "refactor_code"
+      },
+      "expected": {
+        "type": "field_match",
+        "checks": [{ "field": "intent", "expected": "refactor_code" }]
+      },
+      "weight": 1.0,
+      "timeout_secs": 10
+    },
+    {
+      "id": "intent-006",
+      "name": "Deploy application intent",
+      "input": {
+        "type": "intent_pair",
+        "utterance": "Deploy this application to production with CI/CD",
+        "expected_intent": "deploy_app"
+      },
+      "expected": {
+        "type": "field_match",
+        "checks": [{ "field": "intent", "expected": "deploy_app" }]
+      },
+      "weight": 1.0,
+      "timeout_secs": 10
+    },
+    {
+      "id": "intent-007",
+      "name": "Create API intent",
+      "input": {
+        "type": "intent_pair",
+        "utterance": "Build a REST API with CRUD endpoints for managing users and orders",
+        "expected_intent": "create_api"
+      },
+      "expected": {
+        "type": "field_match",
+        "checks": [{ "field": "intent", "expected": "create_api" }]
+      },
+      "weight": 1.5,
+      "timeout_secs": 10
+    },
+    {
+      "id": "intent-008",
+      "name": "Write tests intent",
+      "input": {
+        "type": "intent_pair",
+        "utterance": "Write unit tests for the payment processing module",
+        "expected_intent": "write_tests"
+      },
+      "expected": {
+        "type": "field_match",
+        "checks": [{ "field": "intent", "expected": "write_tests" }]
+      },
+      "weight": 1.0,
+      "timeout_secs": 10
+    },
+    {
+      "id": "intent-009",
+      "name": "Improve performance intent",
+      "input": {
+        "type": "intent_pair",
+        "utterance": "The page load time is too slow, optimize the performance",
+        "expected_intent": "improve_performance"
+      },
+      "expected": {
+        "type": "field_match",
+        "checks": [{ "field": "intent", "expected": "improve_performance" }]
+      },
+      "weight": 1.5,
+      "timeout_secs": 10
+    },
+    {
+      "id": "intent-010",
+      "name": "Ambiguous creative intent",
+      "input": {
+        "type": "intent_pair",
+        "utterance": "Make it look more modern and professional with better UX",
+        "expected_intent": "redesign_ui"
+      },
+      "expected": {
+        "type": "llm_judge",
+        "criteria": ["accuracy", "clarity"]
+      },
+      "weight": 2.0,
+      "timeout_secs": 10
+    }
+  ]
+}

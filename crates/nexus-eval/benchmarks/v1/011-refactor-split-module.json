@@ -1,0 +1,6 @@
+{
+  "id": "refactor-002",
+  "category": "refactor",
+  "prompt": "`src/auth.ts` mixes session, OAuth, and password logic in 800 lines. Split it into `src/auth/session.ts`, `src/auth/oauth.ts`, `src/auth/password.ts`, and a thin `src/auth/index.ts` that re-exports the public API. No callsite outside `src/auth/*` should need to change.",
+  "rubric": "5/5 if: the public API from `src/auth` is byte-identical, imports outside the new `auth/` dir are unchanged, each submodule is ≤ 300 lines, and the existing tests pass without modification."
+}

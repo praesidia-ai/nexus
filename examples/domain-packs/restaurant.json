@@ -1,0 +1,76 @@
+{
+  "domain": "restaurant",
+  "triggers": ["restaurant", "menu", "dining", "food ordering", "reservation", "table booking", "cuisine"],
+  "default_entities": [
+    {
+      "name": "MenuItem",
+      "fields": ["id", "name", "description", "price", "category", "image_url", "allergens", "is_available", "preparation_time_minutes"]
+    },
+    {
+      "name": "Order",
+      "fields": ["id", "table_number", "items", "status", "total_amount", "created_at", "server_id", "special_instructions"]
+    },
+    {
+      "name": "Reservation",
+      "fields": ["id", "guest_name", "phone", "email", "date", "time", "party_size", "status", "special_requests"]
+    },
+    {
+      "name": "Table",
+      "fields": ["id", "number", "capacity", "section", "status"]
+    },
+    {
+      "name": "Category",
+      "fields": ["id", "name", "display_order", "description"]
+    }
+  ],
+  "default_pages": [
+    {
+      "name": "Menu",
+      "route": "/menu",
+      "description": "Public-facing menu with categories, photos, prices, and allergen info"
+    },
+    {
+      "name": "Order",
+      "route": "/order",
+      "description": "Online ordering with cart, customization, and checkout"
+    },
+    {
+      "name": "Reservations",
+      "route": "/reservations",
+      "description": "Table reservation with date/time picker and party size selection"
+    },
+    {
+      "name": "Kitchen Dashboard",
+      "route": "/kitchen",
+      "description": "Real-time order queue for kitchen staff with preparation timers"
+    },
+    {
+      "name": "Admin Dashboard",
+      "route": "/admin",
+      "description": "Restaurant management: menu editing, reservation overview, daily reports"
+    }
+  ],
+  "hidden_requirements": [
+    {
+      "category": "performance",
+      "description": "Menu images must be optimized and lazy-loaded for fast mobile experience",
+      "priority": "Important"
+    },
+    {
+      "category": "accessibility",
+      "description": "Allergen information must be clearly displayed and filterable",
+      "priority": "Critical"
+    },
+    {
+      "category": "realtime",
+      "description": "Kitchen dashboard requires real-time order updates without page refresh",
+      "priority": "Important"
+    },
+    {
+      "category": "mobile",
+      "description": "Menu and ordering must be fully functional on mobile devices",
+      "priority": "Critical"
+    }
+  ],
+  "ui_style_hint": "Modern"
+}

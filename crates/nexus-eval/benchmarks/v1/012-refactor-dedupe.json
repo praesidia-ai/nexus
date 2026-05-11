@@ -1,0 +1,6 @@
+{
+  "id": "refactor-003",
+  "category": "refactor",
+  "prompt": "Three React components (`OrderCard`, `InvoiceCard`, `RefundCard`) each re-implement the same 40-line currency-formatting block. Extract it into a `useCurrency()` hook in `src/hooks/useCurrency.ts` and convert all three call sites to use it.",
+  "rubric": "5/5 if: the new hook has a focused unit test, all three components render byte-identical output compared to main, no extra re-renders are introduced, and the three components shrink by ≥ 30 lines each."
+}

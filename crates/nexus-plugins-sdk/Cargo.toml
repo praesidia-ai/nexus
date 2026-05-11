@@ -1,0 +1,17 @@
+[package]
+name = "nexus-plugins-sdk"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "Plugin SDK for Nexus — manifest, hooks, capabilities for external developers"
+license.workspace = true
+
+repository.workspace = true
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+async-trait = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["macros", "rt"] }

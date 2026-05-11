@@ -1,0 +1,46 @@
+# Rust
+/target/
+**/*.rs.bk
+
+# Node.js / Next.js
+web/node_modules/
+web/.next/
+web/out/
+.next/
+.ruff_cache/
+/scripts/
+
+# Environment & secrets
+.env
+.env.local
+.env.production
+
+# OS junk
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Logs
+*.log
+npm-debug.log*
+
+# Nexus runtime data (local dev)
+.nexus/
+
+# Playwright artifacts
+web/playwright-report/
+web/test-results/
+web/playwright/.cache/
+
+# Claude Code local settings (machine-specific permissions)
+.claude/settings.local.json
+
+# Internal analysis / audit reports (not user-facing)
+analysis/

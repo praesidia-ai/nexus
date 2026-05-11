@@ -1,0 +1,6 @@
+{
+  "id": "crud-006",
+  "category": "crud",
+  "prompt": "Extend `GET /api/products` with three filters: `?q=<text>` (case-insensitive substring match on name + description), `?min_price=<cents>`, `?max_price=<cents>`. Filters combine with AND semantics; omitted params behave as unfiltered.",
+  "rubric": "5/5 if: each filter works standalone and combined, validation rejects `min_price > max_price` with 400, SQL is parameterised (no string interpolation), pagination still works after filtering, and the response shape is unchanged."
+}

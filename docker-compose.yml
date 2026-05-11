@@ -1,0 +1,105 @@
+version: "3.8"
+services:
+  server:
+    # Two ways to get the server image:
+    #   1. Pull the prebuilt image from GHCR (fast — default when `image:` resolves).
+    #   2. Build locally from this repo (slow — use `docker compose build server`
+    #      to force a rebuild, or override with `build: .` alone).
+    # By keeping both, `docker compose up` will prefer the published image if it
+    # is available locally/remotely, and fall back to a source build otherwise.
+    image: ghcr.io/praesidia-ai/nexus:latest
+    build: .
+    ports:
+      - "8020:8020"
+    volumes:
+      - nexus-data:/data
+      - nexus-backups:/backups
+    environment:
+      NEXUS_DATA_DIR: /data
+      NEXUS_PORT: "8020"
+      # Signs JWTs. If unset (or left at the insecure default), the server
+      # auto-generates a 32-byte random secret on first boot and persists it
+      # to /data/secrets.toml. Set this env var explicitly to override.
+      NEXUS_JWT_SECRET: ${NEXUS_JWT_SECRET:-}
+      # Encrypts vault values + LLM API keys at rest. Same story — if unset
+      # the server auto-generates and persists a key. Set explicitly to override.
+      NEXUS_ENCRYPTION_KEY: ${NEXUS_ENCRYPTION_KEY:-}
+      # REQUIRED in production: comma-separated list of FE origins.
+      # e.g. "https://nexus.example.com,https://staging.example.com"
+      NEXUS_ALLOWED_ORIGINS: ${NEXUS_ALLOWED_ORIGINS:-}
+      # Cloud LLM keys — both optional. If neither is set, the server falls
+      # back to the bundled Ollama service below (NEXUS_LOCAL_LLM_URL).
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      NEXUS_MODEL: ${NEXUS_MODEL:-gpt-4o}
+      # Local LLM fallback — points the server at the ollama service below.
+      # Override with e.g. `NEXUS_LOCAL_LLM_URL=http://my-ollama:11434` if you
+      # run Ollama outside the compose network.
+      NEXUS_LOCAL_LLM_URL: ${NEXUS_LOCAL_LLM_URL:-http://ollama:11434}
+    depends_on:
+      ollama:
+        condition: service_healthy
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      NEXT_PUBLIC_API_URL: http://server:8020
+      PORT: "8080"
+      HOSTNAME: "0.0.0.0"
+    depends_on:
+      - server
+    restart: unless-stopped
+
+  # Local LLM runtime. Starts by default so `docker compose up` gives you a
+  # working zero-API-key setup out of the box. If you only use cloud LLMs
+  # (OpenAI/Anthropic) you can skip this service with:
+  #   docker compose up server frontend
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    healthcheck:
+      # Ollama's HTTP API returns "Ollama is running" on /
+      test: ["CMD-SHELL", "ollama list >/dev/null 2>&1 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    restart: unless-stopped
+
+  # Hourly snapshot of the SQLite WAL-mode database into a side volume.
+  # Uses `sqlite3 .backup` (online safe) so writers stay un-blocked.
+  # Keeps the most recent 168 snapshots (~1 week at hourly cadence).
+  # Activate with: `docker compose --profile backup up -d`
+  backup:
+    image: keinos/sqlite3:latest
+    depends_on:
+      - server
+    volumes:
+      - nexus-data:/data:ro
+      - nexus-backups:/backups
+    entrypoint: >
+      sh -c '
+        while true; do
+          ts=$$(date -u +%Y%m%d-%H%M%S);
+          out=/backups/nexus-$$ts.db;
+          sqlite3 /data/nexus.db ".backup $$out" && echo "[backup] wrote $$out";
+          ls -1tr /backups/nexus-*.db 2>/dev/null | head -n -168 | xargs -r rm --;
+          sleep 3600;
+        done
+      '
+    profiles:
+      - backup
+    restart: unless-stopped
+
+volumes:
+  nexus-data:
+  nexus-backups:
+  ollama-data:

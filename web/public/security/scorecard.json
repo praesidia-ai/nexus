@@ -1,0 +1,41 @@
+{
+  "ran_at": "2026-04-23T12:00:00Z",
+  "suite_version": "v1",
+  "summary": {
+    "total_probes": 0,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "pass_rate": 0.0
+  },
+  "suites": [
+    {
+      "name": "agentdojo",
+      "url": "https://agentdojo.spylab.ai",
+      "ran_at": null,
+      "passed": 0,
+      "failed": 0,
+      "pass_rate": 0.0,
+      "probes": []
+    },
+    {
+      "name": "promptfoo",
+      "url": "https://github.com/promptfoo/promptfoo",
+      "ran_at": null,
+      "passed": 0,
+      "failed": 0,
+      "pass_rate": 0.0,
+      "probes": []
+    },
+    {
+      "name": "garak",
+      "url": "https://github.com/NVIDIA/garak",
+      "ran_at": null,
+      "passed": 0,
+      "failed": 0,
+      "pass_rate": 0.0,
+      "probes": []
+    }
+  ],
+  "note": "Scorecard not yet populated. Nightly CI will run the three red-team suites against `nexus mcp serve` and overwrite this file. Source: scripts/redteam/run-nightly.sh (coming soon)."
+}

@@ -1,0 +1,1025 @@
+{
+  "ran_at": "2026-04-23T19:30:33.772017+00:00",
+  "suite_version": "v1",
+  "tasks_total": 50,
+  "rows": [
+    {
+      "candidate": "nexus",
+      "tasks_attempted": 50,
+      "median_total_tokens": 2620,
+      "p95_total_tokens": 2644,
+      "median_cost_usd": 0.00786,
+      "mean_quality": 4.0
+    },
+    {
+      "candidate": "claude-code",
+      "tasks_attempted": 50,
+      "median_total_tokens": 8835,
+      "p95_total_tokens": 9050,
+      "median_cost_usd": 0.026505,
+      "mean_quality": 4.0
+    }
+  ],
+  "samples": [
+    {
+      "task_id": "bugfix-001",
+      "candidate": "nexus",
+      "input_tokens": 678,
+      "output_tokens": 1357,
+      "cost_usd": 0.006105,
+      "duration": 285,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "bugfix-001",
+      "candidate": "claude-code",
+      "input_tokens": 2945,
+      "output_tokens": 5890,
+      "cost_usd": 0.026505,
+      "duration": 285,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "bugfix-002",
+      "candidate": "nexus",
+      "input_tokens": 678,
+      "output_tokens": 1358,
+      "cost_usd": 0.006108000000000001,
+      "duration": 286,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "bugfix-002",
+      "candidate": "claude-code",
+      "input_tokens": 2945,
+      "output_tokens": 5891,
+      "cost_usd": 0.026508,
+      "duration": 286,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "bugfix-003",
+      "candidate": "nexus",
+      "input_tokens": 679,
+      "output_tokens": 1358,
+      "cost_usd": 0.006111,
+      "duration": 287,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "bugfix-003",
+      "candidate": "claude-code",
+      "input_tokens": 2945,
+      "output_tokens": 5892,
+      "cost_usd": 0.026511,
+      "duration": 287,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "bugfix-004",
+      "candidate": "nexus",
+      "input_tokens": 679,
+      "output_tokens": 1359,
+      "cost_usd": 0.0061140000000000005,
+      "duration": 288,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "bugfix-004",
+      "candidate": "claude-code",
+      "input_tokens": 2946,
+      "output_tokens": 5892,
+      "cost_usd": 0.026514,
+      "duration": 288,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "bugfix-005",
+      "candidate": "nexus",
+      "input_tokens": 679,
+      "output_tokens": 1360,
+      "cost_usd": 0.006117,
+      "duration": 289,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "bugfix-005",
+      "candidate": "claude-code",
+      "input_tokens": 2946,
+      "output_tokens": 5893,
+      "cost_usd": 0.026517000000000002,
+      "duration": 289,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "bugfix-006",
+      "candidate": "nexus",
+      "input_tokens": 680,
+      "output_tokens": 1360,
+      "cost_usd": 0.0061200000000000004,
+      "duration": 290,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "bugfix-006",
+      "candidate": "claude-code",
+      "input_tokens": 2946,
+      "output_tokens": 5894,
+      "cost_usd": 0.026520000000000002,
+      "duration": 290,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "bugfix-007",
+      "candidate": "nexus",
+      "input_tokens": 680,
+      "output_tokens": 1361,
+      "cost_usd": 0.006123,
+      "duration": 291,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "bugfix-007",
+      "candidate": "claude-code",
+      "input_tokens": 2947,
+      "output_tokens": 5894,
+      "cost_usd": 0.026523,
+      "duration": 291,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "bugfix-008",
+      "candidate": "nexus",
+      "input_tokens": 680,
+      "output_tokens": 1362,
+      "cost_usd": 0.006126,
+      "duration": 292,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "bugfix-008",
+      "candidate": "claude-code",
+      "input_tokens": 2947,
+      "output_tokens": 5895,
+      "cost_usd": 0.026526,
+      "duration": 292,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "bugfix-009",
+      "candidate": "nexus",
+      "input_tokens": 681,
+      "output_tokens": 1362,
+      "cost_usd": 0.006129,
+      "duration": 293,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "bugfix-009",
+      "candidate": "claude-code",
+      "input_tokens": 2947,
+      "output_tokens": 5896,
+      "cost_usd": 0.026529,
+      "duration": 293,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "bugfix-010",
+      "candidate": "nexus",
+      "input_tokens": 678,
+      "output_tokens": 1357,
+      "cost_usd": 0.006105,
+      "duration": 285,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "bugfix-010",
+      "candidate": "claude-code",
+      "input_tokens": 2945,
+      "output_tokens": 5890,
+      "cost_usd": 0.026505,
+      "duration": 285,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "bugfix-011",
+      "candidate": "nexus",
+      "input_tokens": 678,
+      "output_tokens": 1358,
+      "cost_usd": 0.006108000000000001,
+      "duration": 286,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "bugfix-011",
+      "candidate": "claude-code",
+      "input_tokens": 2945,
+      "output_tokens": 5891,
+      "cost_usd": 0.026508,
+      "duration": 286,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "bugfix-012",
+      "candidate": "nexus",
+      "input_tokens": 679,
+      "output_tokens": 1358,
+      "cost_usd": 0.006111,
+      "duration": 287,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "bugfix-012",
+      "candidate": "claude-code",
+      "input_tokens": 2945,
+      "output_tokens": 5892,
+      "cost_usd": 0.026511,
+      "duration": 287,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "crud-001",
+      "candidate": "nexus",
+      "input_tokens": 873,
+      "output_tokens": 1747,
+      "cost_usd": 0.00786,
+      "duration": 320,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "crud-001",
+      "candidate": "claude-code",
+      "input_tokens": 2873,
+      "output_tokens": 5747,
+      "cost_usd": 0.02586,
+      "duration": 320,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "crud-002",
+      "candidate": "nexus",
+      "input_tokens": 873,
+      "output_tokens": 1748,
+      "cost_usd": 0.007863,
+      "duration": 321,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "crud-002",
+      "candidate": "claude-code",
+      "input_tokens": 2873,
+      "output_tokens": 5748,
+      "cost_usd": 0.025863,
+      "duration": 321,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "crud-003",
+      "candidate": "nexus",
+      "input_tokens": 874,
+      "output_tokens": 1748,
+      "cost_usd": 0.007866,
+      "duration": 322,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "crud-003",
+      "candidate": "claude-code",
+      "input_tokens": 2874,
+      "output_tokens": 5748,
+      "cost_usd": 0.025866,
+      "duration": 322,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "crud-004",
+      "candidate": "nexus",
+      "input_tokens": 874,
+      "output_tokens": 1749,
+      "cost_usd": 0.007869000000000001,
+      "duration": 323,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "crud-004",
+      "candidate": "claude-code",
+      "input_tokens": 2874,
+      "output_tokens": 5749,
+      "cost_usd": 0.025869,
+      "duration": 323,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "crud-005",
+      "candidate": "nexus",
+      "input_tokens": 874,
+      "output_tokens": 1750,
+      "cost_usd": 0.007872,
+      "duration": 324,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "crud-005",
+      "candidate": "claude-code",
+      "input_tokens": 2874,
+      "output_tokens": 5750,
+      "cost_usd": 0.025872,
+      "duration": 324,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "crud-006",
+      "candidate": "nexus",
+      "input_tokens": 875,
+      "output_tokens": 1750,
+      "cost_usd": 0.007875,
+      "duration": 325,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "crud-006",
+      "candidate": "claude-code",
+      "input_tokens": 2875,
+      "output_tokens": 5750,
+      "cost_usd": 0.025875000000000002,
+      "duration": 325,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "crud-007",
+      "candidate": "nexus",
+      "input_tokens": 875,
+      "output_tokens": 1751,
+      "cost_usd": 0.007878,
+      "duration": 326,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "crud-007",
+      "candidate": "claude-code",
+      "input_tokens": 2875,
+      "output_tokens": 5751,
+      "cost_usd": 0.025878,
+      "duration": 326,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "crud-008",
+      "candidate": "nexus",
+      "input_tokens": 875,
+      "output_tokens": 1752,
+      "cost_usd": 0.007881,
+      "duration": 327,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "crud-008",
+      "candidate": "claude-code",
+      "input_tokens": 2875,
+      "output_tokens": 5752,
+      "cost_usd": 0.025881,
+      "duration": 327,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "crud-009",
+      "candidate": "nexus",
+      "input_tokens": 876,
+      "output_tokens": 1752,
+      "cost_usd": 0.007884,
+      "duration": 328,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "crud-009",
+      "candidate": "claude-code",
+      "input_tokens": 2876,
+      "output_tokens": 5752,
+      "cost_usd": 0.025884,
+      "duration": 328,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "crud-010",
+      "candidate": "nexus",
+      "input_tokens": 873,
+      "output_tokens": 1747,
+      "cost_usd": 0.00786,
+      "duration": 320,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "crud-010",
+      "candidate": "claude-code",
+      "input_tokens": 2873,
+      "output_tokens": 5747,
+      "cost_usd": 0.02586,
+      "duration": 320,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "crud-011",
+      "candidate": "nexus",
+      "input_tokens": 873,
+      "output_tokens": 1748,
+      "cost_usd": 0.007863,
+      "duration": 321,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "crud-011",
+      "candidate": "claude-code",
+      "input_tokens": 2873,
+      "output_tokens": 5748,
+      "cost_usd": 0.025863,
+      "duration": 321,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "crud-012",
+      "candidate": "nexus",
+      "input_tokens": 874,
+      "output_tokens": 1748,
+      "cost_usd": 0.007866,
+      "duration": 322,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "crud-012",
+      "candidate": "claude-code",
+      "input_tokens": 2874,
+      "output_tokens": 5748,
+      "cost_usd": 0.025866,
+      "duration": 322,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "crud-013",
+      "candidate": "nexus",
+      "input_tokens": 874,
+      "output_tokens": 1749,
+      "cost_usd": 0.007869000000000001,
+      "duration": 323,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "crud-013",
+      "candidate": "claude-code",
+      "input_tokens": 2874,
+      "output_tokens": 5749,
+      "cost_usd": 0.025869,
+      "duration": 323,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "refactor-001",
+      "candidate": "nexus",
+      "input_tokens": 748,
+      "output_tokens": 1496,
+      "cost_usd": 0.006732,
+      "duration": 244,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "refactor-001",
+      "candidate": "claude-code",
+      "input_tokens": 3014,
+      "output_tokens": 6030,
+      "cost_usd": 0.027132,
+      "duration": 244,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "refactor-002",
+      "candidate": "nexus",
+      "input_tokens": 748,
+      "output_tokens": 1497,
+      "cost_usd": 0.0067350000000000005,
+      "duration": 245,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "refactor-002",
+      "candidate": "claude-code",
+      "input_tokens": 3015,
+      "output_tokens": 6030,
+      "cost_usd": 0.027135,
+      "duration": 245,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "refactor-003",
+      "candidate": "nexus",
+      "input_tokens": 748,
+      "output_tokens": 1498,
+      "cost_usd": 0.006738,
+      "duration": 246,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "refactor-003",
+      "candidate": "claude-code",
+      "input_tokens": 3015,
+      "output_tokens": 6031,
+      "cost_usd": 0.027138000000000002,
+      "duration": 246,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "refactor-004",
+      "candidate": "nexus",
+      "input_tokens": 749,
+      "output_tokens": 1498,
+      "cost_usd": 0.0067410000000000005,
+      "duration": 247,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "refactor-004",
+      "candidate": "claude-code",
+      "input_tokens": 3015,
+      "output_tokens": 6032,
+      "cost_usd": 0.027141000000000002,
+      "duration": 247,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "refactor-005",
+      "candidate": "nexus",
+      "input_tokens": 749,
+      "output_tokens": 1499,
+      "cost_usd": 0.006744,
+      "duration": 248,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "refactor-005",
+      "candidate": "claude-code",
+      "input_tokens": 3016,
+      "output_tokens": 6032,
+      "cost_usd": 0.027144,
+      "duration": 248,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "refactor-006",
+      "candidate": "nexus",
+      "input_tokens": 749,
+      "output_tokens": 1500,
+      "cost_usd": 0.006747,
+      "duration": 249,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "refactor-006",
+      "candidate": "claude-code",
+      "input_tokens": 3016,
+      "output_tokens": 6033,
+      "cost_usd": 0.027147,
+      "duration": 249,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "refactor-007",
+      "candidate": "nexus",
+      "input_tokens": 750,
+      "output_tokens": 1500,
+      "cost_usd": 0.00675,
+      "duration": 250,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "refactor-007",
+      "candidate": "claude-code",
+      "input_tokens": 3016,
+      "output_tokens": 6034,
+      "cost_usd": 0.02715,
+      "duration": 250,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "refactor-008",
+      "candidate": "nexus",
+      "input_tokens": 750,
+      "output_tokens": 1501,
+      "cost_usd": 0.006753,
+      "duration": 251,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "refactor-008",
+      "candidate": "claude-code",
+      "input_tokens": 3017,
+      "output_tokens": 6034,
+      "cost_usd": 0.027153,
+      "duration": 251,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "refactor-009",
+      "candidate": "nexus",
+      "input_tokens": 750,
+      "output_tokens": 1502,
+      "cost_usd": 0.006756,
+      "duration": 252,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "refactor-009",
+      "candidate": "claude-code",
+      "input_tokens": 3017,
+      "output_tokens": 6035,
+      "cost_usd": 0.027156,
+      "duration": 252,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "refactor-010",
+      "candidate": "nexus",
+      "input_tokens": 748,
+      "output_tokens": 1496,
+      "cost_usd": 0.006732,
+      "duration": 244,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "refactor-010",
+      "candidate": "claude-code",
+      "input_tokens": 3014,
+      "output_tokens": 6030,
+      "cost_usd": 0.027132,
+      "duration": 244,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "refactor-011",
+      "candidate": "nexus",
+      "input_tokens": 748,
+      "output_tokens": 1497,
+      "cost_usd": 0.0067350000000000005,
+      "duration": 245,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "refactor-011",
+      "candidate": "claude-code",
+      "input_tokens": 3015,
+      "output_tokens": 6030,
+      "cost_usd": 0.027135,
+      "duration": 245,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "refactor-012",
+      "candidate": "nexus",
+      "input_tokens": 748,
+      "output_tokens": 1498,
+      "cost_usd": 0.006738,
+      "duration": 246,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "refactor-012",
+      "candidate": "claude-code",
+      "input_tokens": 3015,
+      "output_tokens": 6031,
+      "cost_usd": 0.027138000000000002,
+      "duration": 246,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "refactor-013",
+      "candidate": "nexus",
+      "input_tokens": 749,
+      "output_tokens": 1498,
+      "cost_usd": 0.0067410000000000005,
+      "duration": 247,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "refactor-013",
+      "candidate": "claude-code",
+      "input_tokens": 3015,
+      "output_tokens": 6032,
+      "cost_usd": 0.027141000000000002,
+      "duration": 247,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "test-001",
+      "candidate": "nexus",
+      "input_tokens": 879,
+      "output_tokens": 1759,
+      "cost_usd": 0.007914000000000001,
+      "duration": 338,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "test-001",
+      "candidate": "claude-code",
+      "input_tokens": 2879,
+      "output_tokens": 5759,
+      "cost_usd": 0.025914,
+      "duration": 338,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "test-002",
+      "candidate": "nexus",
+      "input_tokens": 879,
+      "output_tokens": 1760,
+      "cost_usd": 0.007917,
+      "duration": 339,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "test-002",
+      "candidate": "claude-code",
+      "input_tokens": 2879,
+      "output_tokens": 5760,
+      "cost_usd": 0.025917,
+      "duration": 339,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "test-003",
+      "candidate": "nexus",
+      "input_tokens": 880,
+      "output_tokens": 1760,
+      "cost_usd": 0.00792,
+      "duration": 340,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "test-003",
+      "candidate": "claude-code",
+      "input_tokens": 2880,
+      "output_tokens": 5760,
+      "cost_usd": 0.025920000000000002,
+      "duration": 340,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "test-004",
+      "candidate": "nexus",
+      "input_tokens": 880,
+      "output_tokens": 1761,
+      "cost_usd": 0.007923,
+      "duration": 341,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "test-004",
+      "candidate": "claude-code",
+      "input_tokens": 2880,
+      "output_tokens": 5761,
+      "cost_usd": 0.025923,
+      "duration": 341,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "test-005",
+      "candidate": "nexus",
+      "input_tokens": 880,
+      "output_tokens": 1762,
+      "cost_usd": 0.007926,
+      "duration": 342,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "test-005",
+      "candidate": "claude-code",
+      "input_tokens": 2880,
+      "output_tokens": 5762,
+      "cost_usd": 0.025926,
+      "duration": 342,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "test-006",
+      "candidate": "nexus",
+      "input_tokens": 881,
+      "output_tokens": 1762,
+      "cost_usd": 0.007929,
+      "duration": 343,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "test-006",
+      "candidate": "claude-code",
+      "input_tokens": 2881,
+      "output_tokens": 5762,
+      "cost_usd": 0.025929,
+      "duration": 343,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "test-007",
+      "candidate": "nexus",
+      "input_tokens": 881,
+      "output_tokens": 1763,
+      "cost_usd": 0.007932,
+      "duration": 344,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "test-007",
+      "candidate": "claude-code",
+      "input_tokens": 2881,
+      "output_tokens": 5763,
+      "cost_usd": 0.025932,
+      "duration": 344,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "test-008",
+      "candidate": "nexus",
+      "input_tokens": 881,
+      "output_tokens": 1764,
+      "cost_usd": 0.007935,
+      "duration": 345,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "test-008",
+      "candidate": "claude-code",
+      "input_tokens": 2881,
+      "output_tokens": 5764,
+      "cost_usd": 0.025935,
+      "duration": 345,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "test-009",
+      "candidate": "nexus",
+      "input_tokens": 882,
+      "output_tokens": 1764,
+      "cost_usd": 0.007938,
+      "duration": 346,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "test-009",
+      "candidate": "claude-code",
+      "input_tokens": 2882,
+      "output_tokens": 5764,
+      "cost_usd": 0.025938,
+      "duration": 346,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "test-010",
+      "candidate": "nexus",
+      "input_tokens": 879,
+      "output_tokens": 1759,
+      "cost_usd": 0.007914000000000001,
+      "duration": 338,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "test-010",
+      "candidate": "claude-code",
+      "input_tokens": 2879,
+      "output_tokens": 5759,
+      "cost_usd": 0.025914,
+      "duration": 338,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "test-011",
+      "candidate": "nexus",
+      "input_tokens": 879,
+      "output_tokens": 1760,
+      "cost_usd": 0.007917,
+      "duration": 339,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "test-011",
+      "candidate": "claude-code",
+      "input_tokens": 2879,
+      "output_tokens": 5760,
+      "cost_usd": 0.025917,
+      "duration": 339,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    },
+    {
+      "task_id": "test-012",
+      "candidate": "nexus",
+      "input_tokens": 880,
+      "output_tokens": 1760,
+      "cost_usd": 0.00792,
+      "duration": 340,
+      "quality": 4,
+      "judge_note": "stub run for `nexus`"
+    },
+    {
+      "task_id": "test-012",
+      "candidate": "claude-code",
+      "input_tokens": 2880,
+      "output_tokens": 5760,
+      "cost_usd": 0.025920000000000002,
+      "duration": 340,
+      "quality": 4,
+      "judge_note": "stub run for `claude-code`"
+    }
+  ]
+}

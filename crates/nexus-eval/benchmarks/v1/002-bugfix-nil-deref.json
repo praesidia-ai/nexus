@@ -1,0 +1,6 @@
+{
+  "id": "bugfix-001",
+  "category": "bugfix",
+  "prompt": "The test suite fails with `TypeError: cannot read property 'length' of undefined` inside `formatSummary`. Fix the underlying issue in `src/format.ts`. Keep the public signature unchanged.",
+  "rubric": "5/5 if: the root cause is fixed (not just the symptom), the existing test suite passes with no regressions, no changes to the public signature, no new dependencies, and the fix includes a unit test that would have caught the regression."
+}

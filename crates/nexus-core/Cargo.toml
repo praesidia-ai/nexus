@@ -1,0 +1,21 @@
+[package]
+name = "nexus-core"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "Single embed surface for Nexus: ZeroClaw agent pool, workflow engine, Praesidia policy, project store"
+
+license.workspace = true
+repository.workspace = true
+[dependencies]
+nexus-zeroclaw  = { path = "../nexus-zeroclaw" }
+nexus-store     = { path = "../nexus-store" }
+praesidia-nexus = { path = "../praesidia" }
+rusqlite.workspace = true
+tokio.workspace = true
+anyhow.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tracing.workspace = true
+chrono.workspace = true
+uuid.workspace = true

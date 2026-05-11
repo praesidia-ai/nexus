@@ -1,0 +1,6 @@
+{
+  "id": "crud-009",
+  "category": "crud",
+  "prompt": "A `user.email` column must be unique among non-soft-deleted rows, but deleted users may free their email so it can be re-registered. Add the constraint and back-fill existing rows.",
+  "rubric": "5/5 if: the constraint is enforced at the DB layer (partial unique index), the migration is backwards-compatible, the API returns 409 with a clear message on violation, and concurrent registrations of the same email can't both succeed."
+}

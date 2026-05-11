@@ -1,0 +1,6 @@
+{
+  "id": "crud-005",
+  "category": "crud",
+  "prompt": "Add optimistic-concurrency control to `PUT /api/documents/:id`: accept an `If-Match: <etag>` header, return 412 on mismatch, include the new `ETag` in every successful response. Callers without `If-Match` retain the old behaviour.",
+  "rubric": "5/5 if: 412 is returned with a JSON body that includes the current etag, concurrent PUTs with stale etags don't silently clobber, the etag algorithm is documented (content-hash vs version), and tests cover the stale-etag, missing-header, and matching-etag paths."
+}

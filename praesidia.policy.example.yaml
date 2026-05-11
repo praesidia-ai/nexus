@@ -1,0 +1,8 @@
+schema_version: 1
+enforcement: permissive
+rules:
+  ingress:
+    - rule: "(?i)classified"
+      action: reject
+  egress: []
+  tools: []

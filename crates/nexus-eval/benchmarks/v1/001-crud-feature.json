@@ -1,0 +1,6 @@
+{
+  "id": "crud-001",
+  "category": "crud",
+  "prompt": "Add a `POST /api/todos` endpoint to the Express app. Store the new todo in-memory, return `201 Created` with the created row. Reuse the existing `Todo` type. Do not touch any other route.",
+  "rubric": "5/5 if: the new handler is additive, reuses `Todo`, returns 201 with the created row including an id, refuses empty bodies with 400, and does not modify GET/DELETE. -1 if unrelated files are touched. -1 if validation is missing."
+}

@@ -1,0 +1,24 @@
+{
+  "name": "@nexus/react-widget",
+  "version": "0.1.0",
+  "description": "Embeddable React chat widget for the Nexus AI platform",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "devDependencies": {
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "typescript": "^5"
+  },
+  "keywords": ["nexus", "ai", "agent", "chat", "widget", "react"],
+  "license": "Apache-2.0"
+}

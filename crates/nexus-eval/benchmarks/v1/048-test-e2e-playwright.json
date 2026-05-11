@@ -1,0 +1,6 @@
+{
+  "id": "test-010",
+  "category": "test",
+  "prompt": "Write a Playwright E2E test that covers sign-up \u2192 login \u2192 edit profile \u2192 logout. Must not be flaky, must run in \u2264 10 s locally.",
+  "rubric": "5/5 if: the test uses stable selectors (data-testid, not text), seeds the DB deterministically, asserts on API responses (not just UI), cleans up after itself, and is tagged so CI can exclude it in the fast lane."
+}

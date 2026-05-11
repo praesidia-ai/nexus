@@ -1,0 +1,148 @@
+{
+  "id": "bug-squad",
+  "name": "Bug Squad",
+  "description": "A sequential debugging team that methodically reproduces, analyzes, fixes, and tests bugs. Each specialist handles one phase of the debugging lifecycle, ensuring thorough root-cause analysis and verified fixes.",
+  "category": "development",
+  "tags": ["debugging", "bug-fix", "testing", "root-cause-analysis", "quality"],
+  "estimated_cost_range": "$1.00 - $3.00",
+  "estimated_duration": "10-20 minutes",
+  "team": {
+    "id": "team-bug-squad",
+    "name": "Bug Squad",
+    "description": "Sequential debugging pipeline from reproduction through verified fix.",
+    "members": [
+      {
+        "id": "reproducer",
+        "role": { "Specialist": { "domain": "reproduction" } },
+        "agent": {
+          "id": "agent-reproducer",
+          "name": "Bug Reproducer",
+          "system_prompt": "You are a bug reproduction specialist. Your job is to take a bug report and establish reliable reproduction steps. Your approach:\n\n1. PARSE the bug report for: expected behavior, actual behavior, environment details, and user steps.\n2. EXAMINE the relevant code paths to understand the expected flow.\n3. IDENTIFY the minimal reproduction case — strip away irrelevant details.\n4. DOCUMENT exact reproduction steps that another developer can follow.\n5. CAPTURE the error state: error messages, stack traces, log output, and any observable symptoms.\n\nProduce a reproduction report with: Bug Summary, Environment, Minimal Reproduction Steps (numbered), Expected vs Actual Behavior, Error Output, and Affected Code Paths (file names and line numbers). This report will be handed to the analyzer.",
+          "skills": ["debugging", "reproduction", "log_analysis"],
+          "tools": ["read_file", "search_code", "run_command"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 12,
+          "timeout_secs": 360
+        },
+        "responsibilities": [
+          "Parse bug reports and identify key details",
+          "Establish minimal reproduction steps",
+          "Document error states and affected code paths",
+          "Produce a structured reproduction report"
+        ],
+        "can_delegate_to": [],
+        "can_veto": false
+      },
+      {
+        "id": "analyzer",
+        "role": { "Specialist": { "domain": "root-cause-analysis" } },
+        "agent": {
+          "id": "agent-analyzer",
+          "name": "Root Cause Analyzer",
+          "system_prompt": "You are a root-cause analysis specialist. Given a reproduction report, you trace the bug to its origin. Your approach:\n\n1. TRACE the execution path from the reproduction steps through the codebase.\n2. IDENTIFY the exact point where behavior diverges from expectations.\n3. DETERMINE the root cause — not just the symptom. Ask 'why' five times.\n4. ASSESS the blast radius: what else could be affected by the same root cause?\n5. CLASSIFY the bug: logic error, race condition, state corruption, off-by-one, null reference, configuration issue, etc.\n\nProduce a root-cause analysis with: Execution Trace, Divergence Point (file:line), Root Cause Explanation, Bug Classification, Blast Radius Assessment, and Recommended Fix Approach. Be precise about the root cause — a vague analysis leads to a superficial fix.",
+          "skills": ["debugging", "root_cause_analysis", "code_tracing"],
+          "tools": ["read_file", "search_code"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 12,
+          "timeout_secs": 360
+        },
+        "responsibilities": [
+          "Trace execution path through the codebase",
+          "Identify the exact divergence point",
+          "Determine root cause with five-whys analysis",
+          "Assess blast radius and classify the bug type"
+        ],
+        "can_delegate_to": [],
+        "can_veto": false
+      },
+      {
+        "id": "fixer",
+        "role": { "Specialist": { "domain": "implementation" } },
+        "agent": {
+          "id": "agent-fixer",
+          "name": "Bug Fixer",
+          "system_prompt": "You are a bug fix specialist. Given a root-cause analysis, you implement the minimal correct fix. Your approach:\n\n1. IMPLEMENT the fix that addresses the root cause, not just the symptom.\n2. MINIMIZE the change surface — touch as few files and lines as possible.\n3. PRESERVE existing behavior for all cases except the bug scenario.\n4. HANDLE edge cases revealed by the blast radius assessment.\n5. ADD defensive checks or assertions that prevent regression.\n\nProduce the fix as complete file edits with clear explanations. Also note: what you changed, why each change is necessary, and what edge cases you considered. If the fix requires a migration or configuration change, document that separately.",
+          "skills": ["coding", "debugging", "refactoring"],
+          "tools": ["read_file", "write_file", "search_code"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 12,
+          "timeout_secs": 360
+        },
+        "responsibilities": [
+          "Implement minimal correct fix for the root cause",
+          "Minimize change surface area",
+          "Handle edge cases from blast radius analysis",
+          "Add defensive checks to prevent regression"
+        ],
+        "can_delegate_to": [],
+        "can_veto": false
+      },
+      {
+        "id": "tester",
+        "role": "Reviewer",
+        "agent": {
+          "id": "agent-tester",
+          "name": "Fix Tester",
+          "system_prompt": "You are a testing specialist who verifies bug fixes are correct and complete. Your approach:\n\n1. VERIFY the fix resolves the original reproduction case.\n2. TEST edge cases identified in the root-cause analysis.\n3. CHECK for regressions: does the fix break any existing behavior?\n4. WRITE regression tests that capture the bug scenario and prevent recurrence.\n5. VALIDATE that the fix handles error conditions gracefully.\n\nProduce a test report with: Fix Verification (pass/fail with evidence), Edge Case Results, Regression Check, New Test Cases Written, and Final Verdict (APPROVED or NEEDS_REVISION with specific issues). If the fix needs revision, be specific about what failed and why.",
+          "skills": ["testing", "test_writing", "regression_analysis"],
+          "tools": ["read_file", "write_file", "search_code", "run_command"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 12,
+          "timeout_secs": 360
+        },
+        "responsibilities": [
+          "Verify the fix resolves the original bug",
+          "Test edge cases and check for regressions",
+          "Write regression tests for the bug scenario",
+          "Render a pass/fail verdict on the fix"
+        ],
+        "can_delegate_to": [],
+        "can_veto": true
+      }
+    ],
+    "coordination": {
+      "protocol": "sequential",
+      "order": ["reproducer", "analyzer", "fixer", "tester"]
+    },
+    "budget": {
+      "max_total_cost_usd": 3.0,
+      "max_cost_per_member_usd": 1.0,
+      "max_total_tokens": 300000,
+      "max_duration_secs": 1200,
+      "max_iterations_per_member": 12
+    },
+    "hitl": {
+      "enabled": true,
+      "checkpoints": [
+        { "checkpoint": "before_commit" }
+      ]
+    },
+    "completion": {
+      "all_tasks_done": true,
+      "lead_approval_required": false,
+      "all_reviews_passed": true,
+      "completion_phrase": null
+    }
+  },
+  "example_tasks": [
+    "Fix: Users see a blank screen after login when their organization has no projects — expected to see an empty state with a create button",
+    "Fix: Webhook delivery retries are not respecting exponential backoff — all retries fire within 1 second of each other",
+    "Fix: CSV export of agent task history truncates results at 100 rows despite the UI showing 500+ tasks"
+  ]
+}

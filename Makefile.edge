@@ -1,0 +1,55 @@
+# Edge / embedded cross-compilation targets for Nexus.
+#
+# Usage:
+#   make -f Makefile.edge build-arm64       # aarch64-unknown-linux-gnu (Raspberry Pi 4, Jetson)
+#   make -f Makefile.edge build-armv7       # armv7-unknown-linux-gnueabihf (Pi 2/3)
+#   make -f Makefile.edge build-musl        # x86_64-unknown-linux-musl (static, Docker scratch)
+#   make -f Makefile.edge docker-edge       # Multi-arch Docker image
+#   make -f Makefile.edge release-edge      # All edge targets
+
+PROFILE     ?= edge
+BINARY      := nexus-server
+CRATE       := nexus-http
+
+# Cross-compile for aarch64 Linux (Raspberry Pi 4, AWS Graviton, Apple Silicon SBCs)
+build-arm64:
+	@echo "==> Cross-compiling for aarch64-unknown-linux-gnu..."
+	cargo build --release --target aarch64-unknown-linux-gnu -p $(CRATE)
+	@cp target/aarch64-unknown-linux-gnu/release/$(BINARY) dist/$(BINARY)-arm64
+
+# Cross-compile for ARMv7 Linux (Raspberry Pi 2/3, BeagleBone)
+build-armv7:
+	@echo "==> Cross-compiling for armv7-unknown-linux-gnueabihf..."
+	cargo build --release --target armv7-unknown-linux-gnueabihf -p $(CRATE)
+	@cp target/armv7-unknown-linux-gnueabihf/release/$(BINARY) dist/$(BINARY)-armv7
+
+# Static musl binary (zero runtime dependencies, Docker scratch base)
+build-musl:
+	@echo "==> Building static musl binary..."
+	cargo build --release --target x86_64-unknown-linux-musl -p $(CRATE)
+	@cp target/x86_64-unknown-linux-musl/release/$(BINARY) dist/$(BINARY)-musl
+
+# Multi-arch Docker image (requires buildx)
+docker-edge:
+	@echo "==> Building multi-arch Docker edge image..."
+	docker buildx build \
+		--platform linux/amd64,linux/arm64,linux/arm/v7 \
+		--file docker/Dockerfile.edge \
+		--tag nexus-server:edge \
+		--push \
+		.
+
+release-edge: build-arm64 build-armv7 build-musl
+	@echo "==> Edge release artifacts in ./dist/"
+	@ls -lh dist/
+
+# Prepare cross-compilation tools (one-time setup)
+setup-cross:
+	rustup target add aarch64-unknown-linux-gnu
+	rustup target add armv7-unknown-linux-gnueabihf
+	rustup target add x86_64-unknown-linux-musl
+	@echo "Install system linkers if not present:"
+	@echo "  brew install FiloSottile/musl-cross/musl-cross  (macOS)"
+	@echo "  sudo apt install gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf musl-tools  (Ubuntu)"
+
+.PHONY: build-arm64 build-armv7 build-musl docker-edge release-edge setup-cross

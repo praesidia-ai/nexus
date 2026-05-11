@@ -1,0 +1,6 @@
+{
+  "id": "crud-008",
+  "category": "crud",
+  "prompt": "Wire an append-only `audit_log` table that records every mutating API call with `{actor, action, resource_id, before, after, ts}`. The diff should be a minimal JSON patch, not a full row snapshot.",
+  "rubric": "5/5 if: reads never write to the log, diffs are RFC 6902 JSON patch, failed requests are still recorded with `status=failed`, the log is immutable (no UPDATE / DELETE), and a retention window (default 90 days) is configurable."
+}

@@ -1,0 +1,6 @@
+{
+  "id": "bugfix-010",
+  "category": "bugfix",
+  "prompt": "Reports run nightly at \"local midnight\" but on DST transition days they double-count or skip an hour. Fix the scheduler to use the tz-aware next-occurrence math.",
+  "rubric": "5/5 if: spring-forward and fall-back days are correctly handled, no report runs twice for the same logical day, no report is skipped, and the fix has explicit tests for both DST transitions in `America/Los_Angeles`."
+}

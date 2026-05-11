@@ -1,0 +1,6 @@
+{
+  "id": "refactor-013",
+  "category": "refactor",
+  "prompt": "`Settings` is a god-object with 47 methods. Split it into `SettingsReader` (read-only) and `SettingsWriter` (mutating). Callers that only read must take the reader.",
+  "rubric": "5/5 if: most callers take the reader-only interface, the writer is only held where mutation is needed, all tests pass, and a static check fails if a future write surface is added to the reader."
+}

@@ -1,0 +1,6 @@
+{
+  "id": "refactor-004",
+  "category": "refactor",
+  "prompt": "Rewrite the promise-chain code in `src/uploader.ts` using `async/await`. Preserve error-propagation semantics exactly — in particular, the current code rejects on the first partial-upload failure without waiting for siblings, and the refactor must keep that behaviour.",
+  "rubric": "5/5 if: no `.then`/`.catch` chains remain, error propagation matches the original timing, all existing tests pass, and the file is shorter by ≥ 20%."
+}

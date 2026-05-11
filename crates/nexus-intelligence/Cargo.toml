@@ -1,0 +1,17 @@
+[package]
+name = "nexus-intelligence"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "Intelligence traits and types for Nexus — intent analysis, decisions, product intelligence, learning"
+license.workspace = true
+
+repository.workspace = true
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+async-trait = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["macros", "rt"] }

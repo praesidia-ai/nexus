@@ -1,0 +1,174 @@
+{
+  "id": "product-strategy",
+  "name": "Product Strategy",
+  "description": "A cross-functional strategy team that evaluates product opportunities from market, product, design, technical, and business perspectives. All specialists research in parallel, and the product manager synthesizes a unified recommendation.",
+  "category": "research",
+  "tags": ["product", "strategy", "market-analysis", "ux", "business", "planning"],
+  "estimated_cost_range": "$2.00 - $4.00",
+  "estimated_duration": "15-25 minutes",
+  "team": {
+    "id": "team-product-strategy",
+    "name": "Product Strategy",
+    "description": "Cross-functional product strategy team with parallel analysis and PM-led synthesis.",
+    "members": [
+      {
+        "id": "market-analyst",
+        "role": { "Specialist": { "domain": "market-analysis" } },
+        "agent": {
+          "id": "agent-market-analyst",
+          "name": "Market Analyst",
+          "system_prompt": "You are a market analyst evaluating product opportunities from a competitive and market-dynamics perspective. Your approach:\n\n1. ANALYZE the competitive landscape: who are the key players, what do they offer, and where are the gaps?\n2. ASSESS market size and growth trajectory for the proposed feature or product area.\n3. IDENTIFY customer segments that would benefit most and their willingness to pay.\n4. EVALUATE market timing: is this the right moment, or are we too early/late?\n5. BENCHMARK against comparable features or products from competitors.\n\nProduce a market analysis with: Competitive Landscape, Market Size/Growth, Target Segments, Timing Assessment, and Key Risks. Use specific competitor names and concrete data points where possible.",
+          "skills": ["market_analysis", "competitive_intelligence", "customer_segmentation"],
+          "tools": ["read_file", "web_search"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 10,
+          "timeout_secs": 400
+        },
+        "responsibilities": [
+          "Analyze competitive landscape and market gaps",
+          "Assess market size and growth potential",
+          "Identify target customer segments",
+          "Evaluate market timing and risks"
+        ],
+        "can_delegate_to": [],
+        "can_veto": false
+      },
+      {
+        "id": "product-manager",
+        "role": "Lead",
+        "agent": {
+          "id": "agent-product-manager",
+          "name": "Product Manager",
+          "system_prompt": "You are a senior product manager leading a cross-functional strategy review. Your responsibilities:\n\n1. DEFINE the problem statement and success criteria before the team starts analysis.\n2. SYNTHESIZE inputs from market analyst, UX designer, tech lead, and business analyst into a unified strategy.\n3. PRIORITIZE features using an impact/effort framework with input from all specialists.\n4. IDENTIFY dependencies, risks, and mitigation strategies.\n5. PRODUCE a product strategy document with: Problem Statement, Proposed Solution, Market Opportunity, User Impact, Technical Feasibility, Business Case, Risks, and Go/No-Go Recommendation.\n\nBe data-driven in your recommendation. If the evidence does not support proceeding, say so clearly. A well-reasoned 'no' is more valuable than an optimistic 'yes' without substance.",
+          "skills": ["product_management", "strategy", "prioritization", "stakeholder_management"],
+          "tools": ["read_file", "write_file"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 12,
+          "timeout_secs": 480
+        },
+        "responsibilities": [
+          "Define problem statement and success criteria",
+          "Synthesize inputs from all specialists",
+          "Prioritize with impact/effort framework",
+          "Produce unified strategy recommendation"
+        ],
+        "can_delegate_to": ["market-analyst", "ux-designer", "tech-lead", "business-analyst"],
+        "can_veto": true
+      },
+      {
+        "id": "ux-designer",
+        "role": { "Specialist": { "domain": "ux-design" } },
+        "agent": {
+          "id": "agent-ux-designer",
+          "name": "UX Designer",
+          "system_prompt": "You are a UX designer evaluating product opportunities from a user experience perspective. Your approach:\n\n1. MAP the current user journey and identify pain points the proposal addresses.\n2. SKETCH the proposed user flow: key screens, interactions, and decision points.\n3. ASSESS usability implications: learning curve, discoverability, cognitive load.\n4. IDENTIFY accessibility requirements and inclusive design considerations.\n5. ESTIMATE the UX effort: wireframes, prototypes, user testing rounds needed.\n\nProduce a UX assessment with: Current Journey Map (text-based), Proposed Flow, Usability Assessment, Accessibility Considerations, and Effort Estimate. Focus on user outcomes, not pixel-level design.",
+          "skills": ["ux_design", "user_research", "wireframing", "accessibility"],
+          "tools": ["read_file", "write_file"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 10,
+          "timeout_secs": 400
+        },
+        "responsibilities": [
+          "Map current user journey and pain points",
+          "Design proposed user flow and interactions",
+          "Assess usability and accessibility implications",
+          "Estimate UX design and testing effort"
+        ],
+        "can_delegate_to": [],
+        "can_veto": false
+      },
+      {
+        "id": "tech-lead",
+        "role": { "Specialist": { "domain": "technical-architecture" } },
+        "agent": {
+          "id": "agent-tech-lead",
+          "name": "Tech Lead",
+          "system_prompt": "You are a tech lead evaluating product opportunities from a technical feasibility and architecture perspective. Your approach:\n\n1. ASSESS technical feasibility: can we build this with our current stack? What new capabilities are needed?\n2. ESTIMATE engineering effort: story points, sprints, or person-weeks for implementation.\n3. IDENTIFY technical risks: scaling concerns, third-party dependencies, data migration complexity.\n4. EVALUATE architectural impact: does this fit cleanly into our current architecture or require significant changes?\n5. PROPOSE a high-level technical approach with key design decisions.\n\nProduce a technical assessment with: Feasibility Rating (High/Medium/Low), Effort Estimate, Technical Risks, Architecture Impact, Proposed Approach, and Prerequisites. Be honest about unknowns — flag areas that need spikes or prototyping.",
+          "skills": ["architecture", "estimation", "risk_assessment", "system_design"],
+          "tools": ["read_file", "search_code"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 10,
+          "timeout_secs": 400
+        },
+        "responsibilities": [
+          "Assess technical feasibility and effort",
+          "Identify technical risks and dependencies",
+          "Evaluate architectural impact",
+          "Propose high-level technical approach"
+        ],
+        "can_delegate_to": [],
+        "can_veto": false
+      },
+      {
+        "id": "business-analyst",
+        "role": { "Specialist": { "domain": "business-analysis" } },
+        "agent": {
+          "id": "agent-business-analyst",
+          "name": "Business Analyst",
+          "system_prompt": "You are a business analyst evaluating product opportunities from a financial and operational perspective. Your approach:\n\n1. BUILD a business case: projected revenue impact, cost savings, or strategic value.\n2. ESTIMATE costs: development, infrastructure, ongoing maintenance, and support.\n3. CALCULATE ROI with conservative, moderate, and optimistic scenarios.\n4. IDENTIFY operational impacts: support burden, documentation needs, training requirements.\n5. ASSESS pricing implications: can we charge for this? Does it increase plan value? Does it reduce churn?\n\nProduce a business analysis with: Revenue/Value Projection, Cost Estimate, ROI Scenarios, Operational Impact, Pricing Recommendations, and Financial Summary. Use concrete numbers even if estimated — ranges are fine, but avoid vague qualitative statements.",
+          "skills": ["business_analysis", "financial_modeling", "roi_analysis"],
+          "tools": ["read_file"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 10,
+          "timeout_secs": 400
+        },
+        "responsibilities": [
+          "Build business case with revenue projections",
+          "Estimate development and operational costs",
+          "Calculate ROI across multiple scenarios",
+          "Assess pricing and monetization implications"
+        ],
+        "can_delegate_to": [],
+        "can_veto": false
+      }
+    ],
+    "coordination": {
+      "protocol": "hierarchical",
+      "lead_id": "product-manager"
+    },
+    "budget": {
+      "max_total_cost_usd": 4.0,
+      "max_cost_per_member_usd": 1.0,
+      "max_total_tokens": 400000,
+      "max_duration_secs": 1500,
+      "max_iterations_per_member": 12
+    },
+    "hitl": {
+      "enabled": true,
+      "checkpoints": [
+        { "checkpoint": "after_planning" }
+      ]
+    },
+    "completion": {
+      "all_tasks_done": true,
+      "lead_approval_required": true,
+      "all_reviews_passed": false,
+      "completion_phrase": null
+    }
+  },
+  "example_tasks": [
+    "Evaluate adding a marketplace for third-party agent plugins: market opportunity, user value, technical effort, and business model",
+    "Should we build a self-serve onboarding flow or keep the white-glove approach? Analyze conversion impact, support cost, and engineering investment",
+    "Assess the opportunity to add multi-region deployment support: customer demand, competitive pressure, technical complexity, and pricing impact"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "id": "crud-010",
+  "category": "crud",
+  "prompt": "Make `POST /api/payments` idempotent: clients supply an `Idempotency-Key` header; a repeat call with the same key returns the original response (never double-charges).",
+  "rubric": "5/5 if: idempotency keys TTL at 24h, same key + different body returns 409, successful replay returns the stored response verbatim including status code, and a unit test demonstrates concurrent calls with the same key resolve to exactly one insert."
+}

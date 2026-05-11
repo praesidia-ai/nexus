@@ -1,0 +1,6 @@
+{
+  "id": "refactor-012",
+  "category": "refactor",
+  "prompt": "The `reports` module mixes read and write paths. Separate them into `reports/query.rs` (reads only) and `reports/command.rs` (writes only) \u2014 no function should live in both.",
+  "rubric": "5/5 if: no function references a write primitive from a query file and vice versa, the public API of `reports/` is unchanged, test coverage does not regress, and the module's internal docstring explains the separation."
+}

@@ -1,0 +1,6 @@
+{
+  "id": "test-008",
+  "category": "test",
+  "prompt": "Write a concurrency test that proves `Counter::incr()` is safe under 1000 parallel increments. Must deterministically fail on a broken implementation.",
+  "rubric": "5/5 if: the test runs under `--test-threads=16` and under `--test-threads=1` with matching assertions, no sleeps are used, it produces a clear diagnostic on failure, and it completes in \u2264 1 s on the happy path."
+}

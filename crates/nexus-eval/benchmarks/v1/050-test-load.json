@@ -1,0 +1,6 @@
+{
+  "id": "test-012",
+  "category": "test",
+  "prompt": "Write a load test (k6 or similar) that sends 200 rps to `POST /api/events` for 60 s and asserts P95 latency \u2264 80 ms and 0 error rate.",
+  "rubric": "5/5 if: thresholds are defined as hard failures, the test seeds a realistic payload mix, it runs in CI in a smoke-sized variant (10 rps \u00d7 5 s) and a full nightly variant, and cleanup leaves no test data behind."
+}

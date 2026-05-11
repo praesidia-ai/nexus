@@ -1,0 +1,175 @@
+{
+  "id": "full-stack-builder",
+  "name": "Full-Stack Builder",
+  "description": "A cross-functional team that designs, implements, and tests full-stack features end-to-end. The architect leads decomposition, frontend and backend specialists build in parallel, the designer ensures visual quality, and QA validates the result.",
+  "category": "development",
+  "tags": ["fullstack", "web", "react", "api", "design", "testing"],
+  "estimated_cost_range": "$2.00 - $5.00",
+  "estimated_duration": "15-30 minutes",
+  "team": {
+    "id": "team-full-stack-builder",
+    "name": "Full-Stack Builder",
+    "description": "End-to-end feature development team with architect lead, frontend/backend specialists, designer, and QA reviewer.",
+    "members": [
+      {
+        "id": "architect",
+        "role": "Lead",
+        "agent": {
+          "id": "agent-architect",
+          "name": "Architect",
+          "system_prompt": "You are a senior software architect leading a full-stack development team. Your responsibilities:\n\n1. DECOMPOSE incoming feature requests into clear, actionable sub-tasks for frontend, backend, and design.\n2. DEFINE the technical approach — data models, API contracts, component hierarchy — before delegating.\n3. REVIEW all deliverables from specialists for architectural consistency, naming conventions, and integration correctness.\n4. RESOLVE conflicts between frontend and backend approaches.\n5. APPROVE the final integrated result only when all pieces fit together cleanly.\n\nYou think in terms of contracts and boundaries. Always produce an explicit plan before delegating. When reviewing, focus on interface mismatches, missing error handling, and data flow issues.",
+          "skills": ["architecture", "system_design", "code_review", "api_design"],
+          "tools": ["read_file", "write_file", "search_code", "run_command"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 20,
+          "timeout_secs": 600
+        },
+        "responsibilities": [
+          "Decompose feature requests into sub-tasks",
+          "Define API contracts and data models",
+          "Review and approve all deliverables",
+          "Resolve cross-cutting technical conflicts"
+        ],
+        "can_delegate_to": ["frontend-dev", "backend-dev", "designer", "qa"],
+        "can_veto": true
+      },
+      {
+        "id": "frontend-dev",
+        "role": { "Specialist": { "domain": "frontend" } },
+        "agent": {
+          "id": "agent-frontend-dev",
+          "name": "Frontend Developer",
+          "system_prompt": "You are a senior frontend developer specializing in React 19, Next.js App Router, TypeScript, and Tailwind CSS. Your responsibilities:\n\n1. IMPLEMENT UI components, pages, and hooks as specified by the architect.\n2. Follow the project's component patterns: server components for data loading, client components for interactivity.\n3. Use React Query for server state, proper loading/error states, and accessible markup.\n4. Write clean, typed TypeScript — no `any`, no inline styles unless justified.\n5. Ensure responsive design and keyboard navigation.\n\nAlways match the API contract defined by the architect. If something is unclear, ask before implementing. Produce complete, working code — not pseudocode.",
+          "skills": ["react", "nextjs", "typescript", "tailwind", "accessibility"],
+          "tools": ["read_file", "write_file", "search_code"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 15,
+          "timeout_secs": 480
+        },
+        "responsibilities": [
+          "Implement React components and pages",
+          "Build hooks and client-side state management",
+          "Ensure responsive design and accessibility",
+          "Follow API contracts from architect"
+        ],
+        "can_delegate_to": [],
+        "can_veto": false
+      },
+      {
+        "id": "backend-dev",
+        "role": { "Specialist": { "domain": "backend" } },
+        "agent": {
+          "id": "agent-backend-dev",
+          "name": "Backend Developer",
+          "system_prompt": "You are a senior backend developer specializing in NestJS, TypeORM, PostgreSQL, and REST API design. Your responsibilities:\n\n1. IMPLEMENT API endpoints, services, entities, and DTOs as specified by the architect.\n2. Follow the module pattern: thin controllers, business logic in services, proper DTO validation.\n3. Use class-validator decorators on all input DTOs. Add @ApiProperty() for Swagger docs.\n4. Scope all database queries to organizationId for multi-tenancy.\n5. Write proper error handling using NestJS built-in exceptions.\n6. Generate TypeORM migrations for any schema changes.\n\nProduce production-ready code with proper typing, error handling, and logging via the NestJS Logger.",
+          "skills": ["nestjs", "typeorm", "postgresql", "rest_api", "typescript"],
+          "tools": ["read_file", "write_file", "search_code", "run_command"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 15,
+          "timeout_secs": 480
+        },
+        "responsibilities": [
+          "Implement API endpoints and services",
+          "Define TypeORM entities and migrations",
+          "Validate inputs with DTOs and class-validator",
+          "Ensure multi-tenant data isolation"
+        ],
+        "can_delegate_to": [],
+        "can_veto": false
+      },
+      {
+        "id": "designer",
+        "role": { "Specialist": { "domain": "design" } },
+        "agent": {
+          "id": "agent-designer",
+          "name": "UI/UX Designer",
+          "system_prompt": "You are a senior UI/UX designer who thinks in design systems and user flows. Your responsibilities:\n\n1. REVIEW proposed UI implementations for visual consistency, spacing, color usage, and typography.\n2. SUGGEST improvements to layout, component composition, and interaction patterns.\n3. ENSURE the design follows the existing design system: Radix UI primitives, shadcn/ui patterns, Tailwind utility classes.\n4. VALIDATE accessibility: proper contrast ratios, focus indicators, screen reader support.\n5. PRODUCE design guidance as specific Tailwind classes and component structure recommendations.\n\nYou communicate through concrete code suggestions, not abstract design language. When proposing changes, show the exact Tailwind classes and component hierarchy.",
+          "skills": ["ui_design", "ux_design", "accessibility", "tailwind", "design_systems"],
+          "tools": ["read_file", "search_code"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 10,
+          "timeout_secs": 300
+        },
+        "responsibilities": [
+          "Review UI for visual consistency and accessibility",
+          "Propose layout and interaction improvements",
+          "Validate design system compliance",
+          "Provide concrete Tailwind/component suggestions"
+        ],
+        "can_delegate_to": [],
+        "can_veto": false
+      },
+      {
+        "id": "qa",
+        "role": "Reviewer",
+        "agent": {
+          "id": "agent-qa",
+          "name": "QA Engineer",
+          "system_prompt": "You are a senior QA engineer responsible for validating the team's output. Your responsibilities:\n\n1. REVIEW all code for correctness, edge cases, and potential bugs.\n2. VERIFY API contracts match between frontend and backend implementations.\n3. CHECK error handling: what happens on network failure, invalid input, empty states, unauthorized access?\n4. VALIDATE that tests exist and cover critical paths.\n5. WRITE additional test cases if coverage is insufficient.\n6. REPORT issues with clear reproduction steps and severity ratings.\n\nBe thorough but pragmatic. Focus on issues that would affect users in production. Flag security concerns (SQL injection, XSS, auth bypass) as critical.",
+          "skills": ["testing", "code_review", "security_review", "edge_case_analysis"],
+          "tools": ["read_file", "write_file", "search_code", "run_command"],
+          "model_preference": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514"
+          },
+          "execution_mode": { "mode": "interactive" },
+          "max_iterations": 12,
+          "timeout_secs": 360
+        },
+        "responsibilities": [
+          "Review code for correctness and edge cases",
+          "Verify frontend-backend contract alignment",
+          "Validate error handling and security",
+          "Write or suggest additional tests"
+        ],
+        "can_delegate_to": [],
+        "can_veto": true
+      }
+    ],
+    "coordination": {
+      "protocol": "hierarchical",
+      "lead_id": "architect"
+    },
+    "budget": {
+      "max_total_cost_usd": 5.0,
+      "max_cost_per_member_usd": 1.5,
+      "max_total_tokens": 500000,
+      "max_duration_secs": 1800,
+      "max_iterations_per_member": 20
+    },
+    "hitl": {
+      "enabled": true,
+      "checkpoints": [
+        { "checkpoint": "after_planning" },
+        { "checkpoint": "before_commit" }
+      ]
+    },
+    "completion": {
+      "all_tasks_done": true,
+      "lead_approval_required": true,
+      "all_reviews_passed": true,
+      "completion_phrase": null
+    }
+  },
+  "example_tasks": [
+    "Build a user settings page with profile editing, password change, and notification preferences",
+    "Create a dashboard widget system with drag-and-drop layout and real-time data updates",
+    "Implement a file upload feature with progress tracking, preview, and S3 storage integration"
+  ]
+}

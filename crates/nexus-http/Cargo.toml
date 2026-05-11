@@ -1,0 +1,76 @@
+[package]
+name = "nexus-http"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "Axum HTTP server exposing all Nexus capabilities: projects, SSE chat, tables, agents, workflows, portals"
+
+license.workspace = true
+repository.workspace = true
+[dependencies]
+nexus-store = { path = "../nexus-store" }
+nexus-providers = { path = "../nexus-providers" }
+nexus-a2a = { path = "../nexus-a2a" }
+nexus-pkg = { path = "../nexus-pkg" }
+dirs-next = "2.0"
+nexus-kernel = { path = "../nexus-kernel" }
+nexus-agents-core = { path = "../nexus-agents-core" }
+nexus-mcp = { path = "../nexus-mcp" }
+nexus-memory = { path = "../nexus-memory" }
+nexus-sandbox = { path = "../nexus-sandbox" }
+nexus-integrations = { path = "../nexus-integrations" }
+nexus-eval = { path = "../nexus-eval" }
+nexus-workflow = { path = "../nexus-workflow" }
+
+axum          = { workspace = true, features = ["macros"] }
+tokio         = { workspace = true }
+serde         = { workspace = true }
+serde_json    = { workspace = true }
+reqwest       = { version = "0.12", features = ["json", "stream", "rustls-tls", "multipart"] }
+futures-util  = { workspace = true }
+tracing       = { workspace = true }
+tracing-subscriber = { workspace = true }
+anyhow        = { workspace = true }
+chrono        = { workspace = true }
+uuid          = { workspace = true }
+thiserror     = { workspace = true }
+rusqlite      = { workspace = true }
+
+tower-http   = { version = "0.6", features = ["cors", "catch-panic", "fs", "request-id", "set-header", "trace", "util"] }
+tokio-stream = { version = "0.1", features = ["sync"] }
+tower        = "0.5"
+async-stream = "0.3"
+sha2         = "0.10"
+hmac         = "0.12"
+base64       = "0.22"
+hex          = "0.4"
+rand         = "0.8"
+toml         = "0.8"
+regex        = "1.11"
+url          = "2.5"
+percent-encoding = "2.3"
+dashmap = "6.1"
+async-trait  = { workspace = true }
+zip          = { workspace = true }
+futures = "0.3.32"
+walkdir = "2.5"
+globset = "0.4"
+ed25519-dalek = { version = "2", features = ["rand_core"] }
+opentelemetry = { version = "0.31.0", features = ["trace", "metrics"] }
+opentelemetry_sdk = { version = "0.31.0", features = ["trace", "metrics", "rt-tokio"] }
+opentelemetry-otlp = { version = "0.31.1", features = ["tonic", "grpc-tonic", "trace", "metrics"] }
+opentelemetry-semantic-conventions = "0.31.0"
+tracing-opentelemetry = "0.32.1"
+wasmtime = { version = "30", features = ["component-model", "async"] }
+wasmtime-wasi = { version = "30" }
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+
+[dev-dependencies]
+tempfile = "3"
+wat = "1.0"
+
+[[bin]]
+name = "nexus-server"
+path = "src/main.rs"
