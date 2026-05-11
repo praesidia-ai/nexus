@@ -57,7 +57,7 @@ walkdir = "2.5"
 globset = "0.4"
 ed25519-dalek = { version = "2", features = ["rand_core"] }
 opentelemetry = { version = "0.31.0", features = ["trace", "metrics"] }
-opentelemetry_sdk = { version = "0.31.0", features = ["trace", "metrics", "rt-tokio"] }
+opentelemetry_sdk = { version = "0.32.0", features = ["trace", "metrics", "rt-tokio"] }
 opentelemetry-otlp = { version = "0.31.1", features = ["tonic", "grpc-tonic", "trace", "metrics"] }
 opentelemetry-semantic-conventions = "0.31.0"
 tracing-opentelemetry = "0.32.1"
