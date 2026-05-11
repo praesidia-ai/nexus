@@ -41,7 +41,7 @@ tokio-stream = { version = "0.1", features = ["sync"] }
 tower        = "0.5"
 async-stream = "0.3"
 sha2         = "0.10"
-hmac         = "0.12"
+hmac         = "0.13"
 base64       = "0.22"
 hex          = "0.4"
 rand         = "0.8"
