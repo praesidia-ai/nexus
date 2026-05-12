@@ -9,13 +9,12 @@ Nexus uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+- Switched license from dual `MIT OR Apache-2.0` to `MIT` only. `LICENSE-APACHE` and `LICENSE-MIT` removed; canonical license file is now `LICENSE`. `Cargo.toml` workspace `license` field updated.
+
 ## [1.0.1] — 2026-05-11
 
 ## [1.0.0] — 2026-05-11
-
-## [Unreleased]
-
-## [1.0.1] — 2026-05-11
 
 ### Added
 - Initial public release of the Nexus multi-agent orchestrator

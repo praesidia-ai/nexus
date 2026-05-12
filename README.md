@@ -8,7 +8,7 @@
 
 [![CI](https://github.com/praesidia-ai/nexus/actions/workflows/ci.yml/badge.svg)](https://github.com/praesidia-ai/nexus/actions/workflows/ci.yml)
 [![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](CHANGELOG.md)
-[![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](#license)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](#license)
 [![Rust 1.82+](https://img.shields.io/badge/rust-1.82%2B-orange.svg)](https://www.rust-lang.org)
 [![Self-hosted](https://img.shields.io/badge/deploy-self--hosted-success.svg)](#deploy)
 [![Discord](https://img.shields.io/badge/discord-join-5865F2.svg)](https://discord.gg/praesidia)
@@ -58,7 +58,7 @@ This is **not** a one-shot code generator. Bolt, v0, Lovable, Replit Agent all s
 | WASI plugin sandbox | ✅ | ❌ | ❌ | ❌ | ❌ |
 | Cryptographic audit log (Ed25519 + Merkle) | ✅ | ❌ | ❌ | ❌ | ❌ |
 | MCP server out of the box | ✅ | ❌ | ❌ | partial | ❌ |
-| Dual MIT / Apache-2.0, no CLA | ✅ | MIT | proprietary | varies | MIT |
+| MIT, no CLA | ✅ | MIT | proprietary | varies | MIT |
 
 Honest reading: bolt.new and Lovable are great single-agent code generators. Cline and Aider are great pair programmers. CrewAI is a Python library you have to wire up yourself. **Nexus is the team layer** — pick it when you want an AI workforce, not a sidekick.
 
@@ -559,9 +559,9 @@ Found a vulnerability? Please **don't** open a public issue. Email security@prae
 
 ## License
 
-Licensed under either of **[Apache License 2.0](LICENSE-APACHE)** or **[MIT license](LICENSE-MIT)** at your option.
+Licensed under the **[MIT license](LICENSE)**.
 
-Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in this project by you, as defined in the Apache-2.0 license, shall be dual-licensed as above, without any additional terms or conditions.
+Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in this project by you shall be licensed under the MIT license, without any additional terms or conditions.
 
 ---
 

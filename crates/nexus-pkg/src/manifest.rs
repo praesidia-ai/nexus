@@ -129,7 +129,7 @@ name = "{name}"
 version = "0.1.0"
 description = "An agent built with Nexus"
 authors = ["your-name <you@example.com>"]
-license = "Apache-2.0"
+license = "MIT"
 keywords = []
 categories = []
 

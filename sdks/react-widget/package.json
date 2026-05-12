@@ -20,5 +20,5 @@
     "typescript": "^5"
   },
   "keywords": ["nexus", "ai", "agent", "chat", "widget", "react"],
-  "license": "Apache-2.0"
+  "license": "MIT"
 }

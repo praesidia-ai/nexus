@@ -131,4 +131,4 @@ To claim a bounty, comment on the issue with your solution and link your PR.
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under the Apache-2.0 OR MIT dual license.
+By contributing, you agree that your contributions will be licensed under the MIT license.
