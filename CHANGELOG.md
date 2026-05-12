@@ -9,6 +9,8 @@ Nexus uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.0.2] — 2026-05-12
+
 ### Changed
 - Switched license from dual `MIT OR Apache-2.0` to `MIT` only. `LICENSE-APACHE` and `LICENSE-MIT` removed; canonical license file is now `LICENSE`. `Cargo.toml` workspace `license` field updated.
 
