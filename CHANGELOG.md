@@ -9,6 +9,8 @@ Nexus uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.0.3] — 2026-05-15
+
 ## [1.0.2] — 2026-05-12
 
 ### Changed
