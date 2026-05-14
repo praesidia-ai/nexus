@@ -346,12 +346,18 @@ impl Tool for ManageRuntimeTool {
             Ok(())
         }
 
-        fn kill_port(port: u16) {
+        async fn kill_port(port: u16) {
             // Resolve PIDs via lsof without shell interpolation, then kill(1)
             // each PID as a separate argv element.
-            let lsof = std::process::Command::new("lsof")
+            //
+            // MUST use `tokio::process::Command` — `std::process::Command::output()`
+            // calls `wait_with_output()` which blocks the tokio worker thread
+            // for the duration of the child process. Same anti-pattern as
+            // `std::thread::sleep` in async.
+            let lsof = tokio::process::Command::new("lsof")
                 .args(["-ti", &format!(":{port}")])
-                .output();
+                .output()
+                .await;
             if let Ok(out) = lsof {
                 let stdout = String::from_utf8_lossy(&out.stdout);
                 let pids: Vec<String> = stdout
@@ -360,10 +366,11 @@ impl Tool for ManageRuntimeTool {
                     .map(|s| s.to_string())
                     .collect();
                 if !pids.is_empty() {
-                    let _ = std::process::Command::new("kill")
+                    let _ = tokio::process::Command::new("kill")
                         .arg("-TERM")
                         .args(&pids)
-                        .output();
+                        .output()
+                        .await;
                 }
             }
         }
@@ -418,7 +425,7 @@ impl Tool for ManageRuntimeTool {
                 }
             }
             "stop" => {
-                kill_port(port);
+                kill_port(port).await;
                 ok(json!({
                     "action": "stop",
                     "port": port,
@@ -426,10 +433,12 @@ impl Tool for ManageRuntimeTool {
                 }))
             }
             "restart" => {
-                kill_port(port);
+                kill_port(port).await;
 
-                // Wait briefly for port to free up
-                std::thread::sleep(std::time::Duration::from_millis(500));
+                // Wait briefly for port to free up. MUST be tokio::time::sleep —
+                // `std::thread::sleep` blocks the entire tokio worker thread
+                // while this agent-tool is running on an async runtime.
+                tokio::time::sleep(std::time::Duration::from_millis(500)).await;
 
                 let command = match input.parameters.get("command").and_then(|v| v.as_str()) {
                     Some(c) => c.to_string(),
