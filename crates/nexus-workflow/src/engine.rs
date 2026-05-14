@@ -531,49 +531,57 @@ impl WorkflowEngine {
         // Hold the per-instance lock across load → mutate context → persist.
         // Without this, two concurrent completions race on the shared
         // `context.steps` map and the second write loses the first's entry.
-        let lock = self.instance_lock(instance_id).await;
-        let _guard = lock.lock().await;
+        //
+        // The lock MUST be released before calling `self.advance()` —
+        // `advance_inner` re-acquires the same per-instance lock and
+        // `tokio::sync::Mutex` is non-reentrant, so holding it across the
+        // advance call deadlocks every Command-step's workflow transition.
+        // This was the real bug behind the previously-flaky test_command_execution.
+        {
+            let lock = self.instance_lock(instance_id).await;
+            let _guard = lock.lock().await;
 
-        let now = chrono::Utc::now().to_rfc3339();
-        let instance = self.store.load_instance(instance_id)?;
+            let now = chrono::Utc::now().to_rfc3339();
+            let instance = self.store.load_instance(instance_id)?;
 
-        let state = instance
-            .step_states
-            .get(step_id)
-            .ok_or_else(|| WorkflowError::NotFound(format!("step {step_id} not found")))?;
+            let state = instance
+                .step_states
+                .get(step_id)
+                .ok_or_else(|| WorkflowError::NotFound(format!("step {step_id} not found")))?;
 
-        let updated = StepState {
-            status: StepStatus::Completed,
-            started_at: state.started_at.clone(),
-            completed_at: Some(now),
-            result: Some(result),
-            error: None,
-            retries: state.retries,
-            execution_count: state.execution_count,
-        };
-        self.store.update_step(instance_id, step_id, &updated)?;
+            let updated = StepState {
+                status: StepStatus::Completed,
+                started_at: state.started_at.clone(),
+                completed_at: Some(now),
+                result: Some(result),
+                error: None,
+                retries: state.retries,
+                execution_count: state.execution_count,
+            };
+            self.store.update_step(instance_id, step_id, &updated)?;
 
-        // Store step output in context for condition evaluation
-        if let Some(ref res) = updated.result {
-            let mut ctx = instance.context.clone();
-            if let serde_json::Value::Object(ref mut map) = ctx {
-                let steps_key = "steps".to_string();
-                let steps_obj = map
-                    .entry(steps_key)
-                    .or_insert_with(|| serde_json::json!({}));
-                if let serde_json::Value::Object(ref mut steps_map) = steps_obj {
-                    steps_map.insert(
-                        step_id.to_string(),
-                        serde_json::json!({
-                            "status": "success",
-                            "output": res,
-                        }),
-                    );
+            // Store step output in context for condition evaluation
+            if let Some(ref res) = updated.result {
+                let mut ctx = instance.context.clone();
+                if let serde_json::Value::Object(ref mut map) = ctx {
+                    let steps_key = "steps".to_string();
+                    let steps_obj = map
+                        .entry(steps_key)
+                        .or_insert_with(|| serde_json::json!({}));
+                    if let serde_json::Value::Object(ref mut steps_map) = steps_obj {
+                        steps_map.insert(
+                            step_id.to_string(),
+                            serde_json::json!({
+                                "status": "success",
+                                "output": res,
+                            }),
+                        );
+                    }
                 }
+                self.store
+                    .update_instance_status(instance_id, &instance.status, &ctx)?;
             }
-            self.store
-                .update_instance_status(instance_id, &instance.status, &ctx)?;
-        }
+        } // <-- guard dropped here; advance below can now re-acquire it.
 
         // Continue
         self.advance(instance_id).await?;
@@ -589,101 +597,119 @@ impl WorkflowEngine {
         step_id: &str,
         error_msg: &str,
     ) -> Result<(), WorkflowError> {
-        let lock = self.instance_lock(instance_id).await;
-        let _guard = lock.lock().await;
+        // Same deadlock-avoidance pattern as `complete_step`: do all the
+        // mutations under the per-instance lock, decide what follow-up to
+        // run (backoff sleep, advance), then drop the lock before doing it.
+        // `tokio::sync::Mutex` is non-reentrant, so holding it across either
+        // the backoff sleep or `self.advance()` would block any concurrent
+        // call into the same instance.
+        enum FollowUp {
+            BackoffThenAdvance(u64),
+            Advance,
+            None,
+        }
+        let follow_up = {
+            let lock = self.instance_lock(instance_id).await;
+            let _guard = lock.lock().await;
 
-        let now = chrono::Utc::now().to_rfc3339();
-        let instance = self.store.load_instance(instance_id)?;
+            let now = chrono::Utc::now().to_rfc3339();
+            let instance = self.store.load_instance(instance_id)?;
 
-        let step_def = instance.definition.steps.iter().find(|s| s.id == step_id);
+            let step_def = instance.definition.steps.iter().find(|s| s.id == step_id);
 
-        let state = instance
-            .step_states
-            .get(step_id)
-            .ok_or_else(|| WorkflowError::NotFound(format!("step {step_id} not found")))?;
+            let state = instance
+                .step_states
+                .get(step_id)
+                .ok_or_else(|| WorkflowError::NotFound(format!("step {step_id} not found")))?;
 
-        let max_retries = step_def.map(|s| s.retry.max_retries).unwrap_or(0);
-        let new_retries = state.retries + 1;
+            let max_retries = step_def.map(|s| s.retry.max_retries).unwrap_or(0);
+            let new_retries = state.retries + 1;
 
-        if new_retries <= max_retries {
-            // Re-queue: set back to Pending with incremented retry count
-            let retry_state = StepState {
-                status: StepStatus::Pending,
-                started_at: None,
-                completed_at: None,
-                result: None,
-                error: Some(format!("retry {new_retries}/{max_retries}: {error_msg}")),
-                retries: new_retries,
-                execution_count: state.execution_count,
-            };
-            self.store
-                .update_step(instance_id, step_id, &retry_state)?;
-            debug!(
-                instance_id = %instance_id,
-                step_id = %step_id,
-                attempt = new_retries,
-                max = max_retries,
-                "Step queued for retry"
-            );
+            if new_retries <= max_retries {
+                let retry_state = StepState {
+                    status: StepStatus::Pending,
+                    started_at: None,
+                    completed_at: None,
+                    result: None,
+                    error: Some(format!("retry {new_retries}/{max_retries}: {error_msg}")),
+                    retries: new_retries,
+                    execution_count: state.execution_count,
+                };
+                self.store
+                    .update_step(instance_id, step_id, &retry_state)?;
+                debug!(
+                    instance_id = %instance_id,
+                    step_id = %step_id,
+                    attempt = new_retries,
+                    max = max_retries,
+                    "Step queued for retry"
+                );
 
-            // Apply backoff
-            let backoff_secs = step_def
-                .map(|s| s.retry.backoff_secs * 2u64.pow(new_retries.saturating_sub(1)))
-                .unwrap_or(2);
-            tokio::time::sleep(std::time::Duration::from_secs(backoff_secs)).await;
+                let backoff_secs = step_def
+                    .map(|s| s.retry.backoff_secs * 2u64.pow(new_retries.saturating_sub(1)))
+                    .unwrap_or(2);
+                FollowUp::BackoffThenAdvance(backoff_secs)
+            } else {
+                let failed_state = StepState {
+                    status: StepStatus::Failed,
+                    started_at: state.started_at.clone(),
+                    completed_at: Some(now),
+                    result: None,
+                    error: Some(error_msg.to_string()),
+                    retries: new_retries,
+                    execution_count: state.execution_count,
+                };
+                self.store
+                    .update_step(instance_id, step_id, &failed_state)?;
 
-            self.advance(instance_id).await?;
-        } else {
-            // Permanently failed
-            let failed_state = StepState {
-                status: StepStatus::Failed,
-                started_at: state.started_at.clone(),
-                completed_at: Some(now),
-                result: None,
-                error: Some(error_msg.to_string()),
-                retries: new_retries,
-                execution_count: state.execution_count,
-            };
-            self.store
-                .update_step(instance_id, step_id, &failed_state)?;
+                let mut ctx = instance.context.clone();
+                if let serde_json::Value::Object(ref mut map) = ctx {
+                    let steps_obj = map
+                        .entry("steps".to_string())
+                        .or_insert_with(|| serde_json::json!({}));
+                    if let serde_json::Value::Object(ref mut steps_map) = steps_obj {
+                        steps_map.insert(
+                            step_id.to_string(),
+                            serde_json::json!({
+                                "status": "failed",
+                                "error": error_msg,
+                            }),
+                        );
+                    }
+                }
 
-            // Store failure in context for condition evaluation
-            let mut ctx = instance.context.clone();
-            if let serde_json::Value::Object(ref mut map) = ctx {
-                let steps_obj = map
-                    .entry("steps".to_string())
-                    .or_insert_with(|| serde_json::json!({}));
-                if let serde_json::Value::Object(ref mut steps_map) = steps_obj {
-                    steps_map.insert(
-                        step_id.to_string(),
-                        serde_json::json!({
-                            "status": "failed",
-                            "error": error_msg,
-                        }),
-                    );
+                warn!(
+                    instance_id = %instance_id,
+                    step_id = %step_id,
+                    error = %error_msg,
+                    "Step permanently failed"
+                );
+
+                if instance.definition.on_error == ErrorPolicy::FailFast {
+                    self.store.update_instance_status(
+                        instance_id,
+                        &WorkflowStatus::Failed,
+                        &ctx,
+                    )?;
+                    FollowUp::None
+                } else {
+                    self.store
+                        .update_instance_status(instance_id, &instance.status, &ctx)?;
+                    FollowUp::Advance
                 }
             }
+        }; // lock dropped here
 
-            warn!(
-                instance_id = %instance_id,
-                step_id = %step_id,
-                error = %error_msg,
-                "Step permanently failed"
-            );
-
-            // Apply error policy
-            if instance.definition.on_error == ErrorPolicy::FailFast {
-                self.store.update_instance_status(
-                    instance_id,
-                    &WorkflowStatus::Failed,
-                    &ctx,
-                )?;
-            } else {
-                self.store
-                    .update_instance_status(instance_id, &instance.status, &ctx)?;
-                // ContinueOnError — try advancing other independent branches
+        // Lock-free follow-up actions.
+        match follow_up {
+            FollowUp::BackoffThenAdvance(secs) => {
+                tokio::time::sleep(std::time::Duration::from_secs(secs)).await;
                 self.advance(instance_id).await?;
             }
+            FollowUp::Advance => {
+                self.advance(instance_id).await?;
+            }
+            FollowUp::None => {}
         }
 
         Ok(())
@@ -1519,6 +1545,40 @@ mod tests {
     use crate::definition::*;
     use tempfile::TempDir;
 
+    /// Poll `engine.status(instance_id)` until `predicate(state)` returns true
+    /// or the deadline expires. Returns the matching state or panics with a
+    /// detail of the last observed state.
+    ///
+    /// Replaces `tokio::time::sleep(N ms); assert!(state == ...)` which races
+    /// under parallel test load — the sleep is a guess at how long the
+    /// background tokio::spawn'd command needs and is wrong as soon as the
+    /// host is busy.
+    async fn poll_until<F>(
+        engine: &WorkflowEngine,
+        instance_id: &str,
+        deadline: std::time::Duration,
+        what: &str,
+        predicate: F,
+    ) -> WorkflowInstance
+    where
+        F: Fn(&WorkflowInstance) -> bool,
+    {
+        let start = std::time::Instant::now();
+        let poll_interval = std::time::Duration::from_millis(10);
+        let mut last = engine.status(instance_id).expect("status lookup");
+        while !predicate(&last) {
+            if start.elapsed() > deadline {
+                panic!(
+                    "poll_until({what}) deadline exceeded; last state: status={:?} step_states={:?}",
+                    last.status, last.step_states
+                );
+            }
+            tokio::time::sleep(poll_interval).await;
+            last = engine.status(instance_id).expect("status lookup");
+        }
+        last
+    }
+
     fn make_step(id: &str, deps: Vec<&str>) -> WorkflowStep {
         WorkflowStep {
             id: id.to_string(),
@@ -2125,10 +2185,20 @@ mod tests {
 
         let instance = engine.start(&def, serde_json::json!({})).await.unwrap();
 
-        // The command runs asynchronously via tokio::spawn. Wait for it.
-        tokio::time::sleep(std::time::Duration::from_millis(500)).await;
+        // Command runs asynchronously via tokio::spawn — poll until the
+        // WORKFLOW reaches a terminal state. The step transitions first;
+        // there's a brief window where the step is `Completed` but the
+        // workflow status is still `Running` while the engine wraps up.
+        // Polling on the workflow status covers both transitions.
+        let final_state = poll_until(
+            &engine,
+            &instance.id,
+            std::time::Duration::from_secs(10),
+            "workflow terminal",
+            |s| !matches!(s.status, WorkflowStatus::Running | WorkflowStatus::Paused),
+        )
+        .await;
 
-        let final_state = engine.status(&instance.id).unwrap();
         assert_eq!(
             final_state.step_states["echo"].status,
             StepStatus::Completed
@@ -2548,10 +2618,16 @@ mod tests {
         let instance = engine.start(&def, serde_json::json!({})).await.unwrap();
         assert_eq!(instance.step_states["slow"].status, StepStatus::Running);
 
-        // Wait for timeout to fire
-        tokio::time::sleep(std::time::Duration::from_millis(400)).await;
-
-        let final_state = engine.status(&instance.id).unwrap();
+        // Poll until the timeout watchdog fires — fixed sleep raced under
+        // parallel CI load.
+        let final_state = poll_until(
+            &engine,
+            &instance.id,
+            std::time::Duration::from_secs(5),
+            "slow step TimedOut",
+            |s| matches!(s.step_states["slow"].status, StepStatus::TimedOut),
+        )
+        .await;
         assert_eq!(
             final_state.step_states["slow"].status,
             StepStatus::TimedOut
@@ -2594,10 +2670,15 @@ mod tests {
 
         let instance = engine.start(&def, serde_json::json!({})).await.unwrap();
 
-        // Wait for timeout to fire
-        tokio::time::sleep(std::time::Duration::from_millis(500)).await;
-
-        let final_state = engine.status(&instance.id).unwrap();
+        // Poll until the command-step timeout watchdog fires.
+        let final_state = poll_until(
+            &engine,
+            &instance.id,
+            std::time::Duration::from_secs(5),
+            "slow_cmd TimedOut",
+            |s| matches!(s.step_states["slow_cmd"].status, StepStatus::TimedOut),
+        )
+        .await;
         assert_eq!(
             final_state.step_states["slow_cmd"].status,
             StepStatus::TimedOut
