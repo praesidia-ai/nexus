@@ -24,6 +24,7 @@ use nexus_agents_core::definition::AgentDefinition as CoreAgentDefinition;
 
 use crate::error::{ApiError, ApiResult};
 use crate::security::auth::{AuthContext, Scope};
+use crate::security::tenant::validate_project_access;
 use crate::state::AppState;
 
 // ---------------------------------------------------------------------------
@@ -247,13 +248,26 @@ pub struct CreateSessionReq {
 }
 
 /// POST /sessions
+///
+/// Tenant guard: refuse to create a collab session against another tenant's
+/// project. The body supplies `project_id` so we MUST validate ownership —
+/// without this, a tenant could create sessions targeting foreign projects
+/// and leak metadata via `GET /sessions/:id`.
 pub async fn create_session(
-    State(_app): State<Arc<AppState>>,
+    State(app): State<Arc<AppState>>,
     auth: AuthContext,
     Json(body): Json<CreateSessionReq>,
 ) -> ApiResult<Json<serde_json::Value>> {
     auth.require_scope(&Scope::AgentExecute)
         .map_err(|_| ApiError::Forbidden("agent:execute scope required".into()))?;
+
+    // Lock scope: drop the DB guard before any .await — collab_manager is async.
+    {
+        let db = app.db.lock().await;
+        validate_project_access(&db, &body.project_id, &auth.tenant_id)
+            .map_err(ApiError::Forbidden)?;
+    }
+
     let creator = Participant {
         user_id: body.creator_user_id,
         name: body.creator_name,

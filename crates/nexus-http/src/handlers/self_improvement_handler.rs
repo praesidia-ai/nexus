@@ -2,12 +2,21 @@
 //!
 //! Exposes endpoints to trigger post-generation learning, retrieve
 //! self-evaluation reports, and manage the eval-gated skill promotion loop.
+//!
+//! SECURITY: `learn` accepts a `project_id` in the body. Without auth + tenant
+//! validation any caller could inject learning signals targeting another
+//! tenant's project (cross-tenant signal poisoning, same shape as the
+//! `decision_learning_handler` bug). The handler now requires
+//! `AuthContext` and validates the body's `project_id` against the caller's
+//! tenant before any state mutation.
 
 use std::sync::Arc;
 
 use axum::{extract::State, http::StatusCode, Json};
 use serde::Deserialize;
 
+use crate::security::auth::AuthContext;
+use crate::security::tenant::validate_project_access;
 use crate::self_improvement_engine::SelfImprovementEngine;
 use crate::skill_dna;
 use crate::state::AppState;
@@ -28,10 +37,39 @@ pub struct LearnRequest {
 }
 
 /// `POST /self-improvement/learn` — trigger post-generation learning.
+///
+/// Requires authentication. The body's `project_id` is verified to belong to
+/// the caller's tenant before learning runs — otherwise a tenant could poison
+/// another tenant's learning history with arbitrary outcomes.
 pub async fn learn(
     State(state): State<Arc<AppState>>,
+    auth: AuthContext,
     Json(body): Json<LearnRequest>,
 ) -> (StatusCode, Json<serde_json::Value>) {
+    // Tenant guard against the body-supplied project_id.
+    {
+        let db = state.db.lock().await;
+        if let Err(reason) = validate_project_access(&db, &body.project_id, &auth.tenant_id) {
+            return (
+                StatusCode::FORBIDDEN,
+                Json(serde_json::json!({ "error": reason })),
+            );
+        }
+    }
+
+    // Bound the description so a tenant cannot make every learning call cost
+    // megabytes of memory + storage. The cap mirrors what oneshot/intent use.
+    if let Err(api_err) = crate::input_limits::require_bounded(
+        "description",
+        &body.description,
+        crate::input_limits::MAX_CHAT_MESSAGE_BYTES,
+    ) {
+        return (
+            StatusCode::BAD_REQUEST,
+            Json(serde_json::json!({ "error": api_err.to_string() })),
+        );
+    }
+
     let engine = SelfImprovementEngine::new();
     match engine
         .post_generation_learning(
