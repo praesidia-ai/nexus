@@ -391,51 +391,50 @@ pub async fn update_agent_model(
     Path((project_id, agent_id)): Path<(String, String)>,
     Json(body): Json<UpdateAgentModelReq>,
 ) -> ApiResult<Json<serde_json::Value>> {
-    let db = app.db.lock().await;
-    validate_project_access(&db, &project_id, &auth.tenant_id)
-        .map_err(ApiError::Forbidden)?;
+    // Scope the SQLite guard so it is released BEFORE the YAML file I/O
+    // below. Holding `db` across blocking `std::fs` calls (the old code did)
+    // serialised the entire global database connection behind a file write.
+    {
+        let db = app.db.lock().await;
+        validate_project_access(&db, &project_id, &auth.tenant_id)
+            .map_err(ApiError::Forbidden)?;
 
-    // Verify agent exists in this project
-    let count: i64 = db.query_row(
-        "SELECT COUNT(*) FROM agent_definitions WHERE id = ?1 AND project_id = ?2",
-        rusqlite::params![agent_id, project_id],
-        |row| row.get(0),
-    )?;
-    if count == 0 {
-        return Err(ApiError::NotFound(format!("agent {} not found", agent_id)));
-    }
+        // Verify agent exists in this project
+        let count: i64 = db.query_row(
+            "SELECT COUNT(*) FROM agent_definitions WHERE id = ?1 AND project_id = ?2",
+            rusqlite::params![agent_id, project_id],
+            |row| row.get(0),
+        )?;
+        if count == 0 {
+            return Err(ApiError::NotFound(format!("agent {} not found", agent_id)));
+        }
 
-    let now = chrono::Utc::now().to_rfc3339();
-    db.execute(
-        "UPDATE agent_definitions SET provider = ?1, model = ?2, updated_at = ?3 WHERE id = ?4",
-        rusqlite::params![body.provider, body.model, now, agent_id],
-    )?;
+        let now = chrono::Utc::now().to_rfc3339();
+        db.execute(
+            "UPDATE agent_definitions SET provider = ?1, model = ?2, updated_at = ?3 WHERE id = ?4",
+            rusqlite::params![body.provider, body.model, now, agent_id],
+        )?;
+    } // <-- db guard dropped here
 
-    // Also update the YAML file if it exists
+    // Also update the YAML file if it exists. Uses `tokio::fs` so the file
+    // read/write does not block the tokio worker thread.
     let agents_dir = app.project_agents_dir(&project_id);
     let yaml_path = agents_dir.join(format!("{}.yaml", agent_id));
-    if yaml_path.exists() {
-        if let Ok(content) = std::fs::read_to_string(&yaml_path) {
-            // Replace provider and model lines in YAML
-            let updated = content
-                .lines()
-                .map(|line| {
-                    if line.trim_start().starts_with("provider:") && line.contains("provider:") {
-                        format!("  provider: {}", body.provider)
-                    } else if line.trim_start().starts_with("name:") && line.contains("name:") {
-                        // Check if this is under "model:" section
-                        line.to_string()
-                    } else {
-                        line.to_string()
-                    }
-                })
-                .collect::<Vec<_>>()
-                .join("\n");
-
-            // Simpler approach: regex-style replacement for the model block
-            let updated = update_yaml_model_block(&updated, &body.provider, &body.model);
-            let _ = std::fs::write(&yaml_path, updated);
-        }
+    if let Ok(content) = tokio::fs::read_to_string(&yaml_path).await {
+        // Replace the provider line, then the model block.
+        let updated: String = content
+            .lines()
+            .map(|line| {
+                if line.trim_start().starts_with("provider:") {
+                    format!("  provider: {}", body.provider)
+                } else {
+                    line.to_string()
+                }
+            })
+            .collect::<Vec<_>>()
+            .join("\n");
+        let updated = update_yaml_model_block(&updated, &body.provider, &body.model);
+        let _ = tokio::fs::write(&yaml_path, updated).await;
     }
 
     info!(

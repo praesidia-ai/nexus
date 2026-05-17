@@ -10,6 +10,7 @@
 //!      contract and gives us the calling tenant for logging).
 //!   2. LLM concurrency slot acquisition via `app.rate_limiter` so every
 //!      multimodal call counts against the global LLM concurrency budget.
+//!
 //! Per-tenant rate limiting is the next step (see SEC-017 / TenantRateLimiter).
 
 use std::sync::Arc;

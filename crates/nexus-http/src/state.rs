@@ -545,7 +545,7 @@ impl AppState {
         let mut reg = self.provider_registry.write().await;
         // Keep a fresh registry so old (revoked) keys don't linger.
         *reg = nexus_providers::ProviderRegistry::new();
-        nexus_providers::register_builtins(&mut *reg, cfg);
+        nexus_providers::register_builtins(&mut reg, cfg);
         tracing::info!(
             providers = reg.len(),
             "LLM provider registry reloaded from settings"

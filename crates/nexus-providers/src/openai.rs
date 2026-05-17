@@ -221,8 +221,8 @@ impl LlmProvider for OpenAiProvider {
                     .and_then(|tc| tc.as_array())
                     .and_then(|a| a.first())
                     .and_then(parse_tool_call_delta);
-                if content.is_some() || tool_call_delta.is_some() {
-                    if tx
+                if (content.is_some() || tool_call_delta.is_some())
+                    && tx
                         .send(StreamChunk {
                             content,
                             tool_call_delta,
@@ -230,9 +230,8 @@ impl LlmProvider for OpenAiProvider {
                         })
                         .await
                         .is_err()
-                    {
-                        return Ok(()); // receiver dropped
-                    }
+                {
+                    return Ok(()); // receiver dropped
                 }
             }
         }

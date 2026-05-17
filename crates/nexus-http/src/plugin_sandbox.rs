@@ -310,6 +310,11 @@ impl PluginSandboxRegistry {
     pub async fn len(&self) -> usize {
         self.inner.lock().await.len()
     }
+
+    /// True when no plugins are currently loaded in the sandbox.
+    pub async fn is_empty(&self) -> bool {
+        self.inner.lock().await.is_empty()
+    }
 }
 
 #[cfg(test)]
