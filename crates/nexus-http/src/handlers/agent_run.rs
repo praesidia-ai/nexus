@@ -229,7 +229,9 @@ pub async fn run_agent(
         .join("generated");
 
     if !project_dir.exists() {
-        std::fs::create_dir_all(&project_dir)
+        // tokio::fs so the directory creation does not block the worker.
+        tokio::fs::create_dir_all(&project_dir)
+            .await
             .map_err(|e| ApiError::Internal(format!("Failed to create project directory: {e}")))?;
     }
 
@@ -472,7 +474,9 @@ pub async fn rescan_brain(
         .join(&project_id)
         .join("generated");
     if !project_dir.exists() {
-        std::fs::create_dir_all(&project_dir)
+        // tokio::fs so the directory creation does not block the worker.
+        tokio::fs::create_dir_all(&project_dir)
+            .await
             .map_err(|e| ApiError::Internal(format!("Failed to create project directory: {e}")))?;
     }
     let brain = ProjectBrain::scan(&project_dir);

@@ -175,14 +175,24 @@ fn spawn_watchdog(app: Arc<AppState>, project_id: String, instance_id: String, p
 // Write .env.local from DB env vars
 // ---------------------------------------------------------------------------
 
-fn write_env_file(
-    _app: &AppState,
+/// Read this project's env vars from the DB and write them to `.env.local`.
+///
+/// Acquires its own short-lived DB lock for the read, drops it, then does the
+/// file I/O with `tokio::fs`. Callers MUST NOT hold the global DB lock when
+/// calling this — both because the file I/O would otherwise serialise the
+/// whole database, and because the internal `db.lock()` would deadlock the
+/// non-reentrant tokio Mutex.
+async fn write_env_file(
+    app: &AppState,
     project_id: &str,
     output_dir: &std::path::Path,
-    db: &rusqlite::Connection,
 ) -> String {
-    let svc = AppRunnerService::new(db);
-    let env_vars = svc.list_env_vars(project_id).unwrap_or_default();
+    // Phase 1 — read env vars under a brief DB lock, then release it.
+    let env_vars = {
+        let db = app.db.lock().await;
+        let svc = AppRunnerService::new(&db);
+        svc.list_env_vars(project_id).unwrap_or_default()
+    };
     if env_vars.is_empty() {
         return String::new();
     }
@@ -192,8 +202,9 @@ fn write_env_file(
         content.push_str(&format!("{}={}\n", var.key, var.value));
     }
 
+    // Phase 2 — file I/O, lock-free, non-blocking.
     let env_path = output_dir.join(".env.local");
-    if let Err(e) = std::fs::write(&env_path, &content) {
+    if let Err(e) = tokio::fs::write(&env_path, &content).await {
         return format!("[nexus] Warning: failed to write .env.local: {}\n", e);
     }
     // Tighten permissions to owner-only — .env.local contains secrets and
@@ -201,7 +212,11 @@ fn write_env_file(
     #[cfg(unix)]
     {
         use std::os::unix::fs::PermissionsExt;
-        if let Err(e) = std::fs::set_permissions(&env_path, std::fs::Permissions::from_mode(0o600))
+        if let Err(e) = tokio::fs::set_permissions(
+            &env_path,
+            std::fs::Permissions::from_mode(0o600),
+        )
+        .await
         {
             return format!(
                 "[nexus] Warning: wrote .env.local but failed to chmod 600: {}\n",
@@ -338,12 +353,19 @@ pub async fn start_app(
                 (s1, s2, s3, s4)
             };
 
-            // Step 0: env setup
+            // Step 0: env setup. The DB lock is released around
+            // `write_env_file` so its file I/O does not serialise the
+            // global database connection (and so the helper's own
+            // db.lock() does not deadlock the non-reentrant tokio Mutex).
             {
                 let db = bg_app.db.lock().await;
                 let svc = AppRunnerService::new(&db);
                 let _ = svc.update_build_step(&env_step_id, "running", None, None);
-                let env_log = write_env_file(&bg_app, &bg_project_id, &bg_output_dir, &db);
+            }
+            let env_log = write_env_file(&bg_app, &bg_project_id, &bg_output_dir).await;
+            {
+                let db = bg_app.db.lock().await;
+                let svc = AppRunnerService::new(&db);
                 let _ = svc.append_logs(&bg_instance_id, &env_log);
                 let _ = svc.complete_build_step(&env_step_id, true, Some(&env_log), None);
             }
@@ -540,12 +562,19 @@ pub async fn start_app(
                 (s1, s2, s3, s4)
             };
 
-            // Step 0: env setup
+            // Step 0: env setup. The DB lock is released around
+            // `write_env_file` so its file I/O does not serialise the
+            // global database connection (and so the helper's own
+            // db.lock() does not deadlock the non-reentrant tokio Mutex).
             {
                 let db = bg_app.db.lock().await;
                 let svc = AppRunnerService::new(&db);
                 let _ = svc.update_build_step(&env_step_id, "running", None, None);
-                let env_log = write_env_file(&bg_app, &bg_project_id, &bg_output_dir, &db);
+            }
+            let env_log = write_env_file(&bg_app, &bg_project_id, &bg_output_dir).await;
+            {
+                let db = bg_app.db.lock().await;
+                let svc = AppRunnerService::new(&db);
                 let _ = svc.append_logs(&bg_instance_id, &env_log);
                 let _ = svc.complete_build_step(&env_step_id, true, Some(&env_log), None);
             }
@@ -918,12 +947,19 @@ pub async fn restart_app(
                 (s1, s2, s3, s4)
             };
 
-            // Step 0: env setup
+            // Step 0: env setup. The DB lock is released around
+            // `write_env_file` so its file I/O does not serialise the
+            // global database connection (and so the helper's own
+            // db.lock() does not deadlock the non-reentrant tokio Mutex).
             {
                 let db = bg_app.db.lock().await;
                 let svc = AppRunnerService::new(&db);
                 let _ = svc.update_build_step(&env_step_id, "running", None, None);
-                let env_log = write_env_file(&bg_app, &bg_project_id, &bg_output_dir, &db);
+            }
+            let env_log = write_env_file(&bg_app, &bg_project_id, &bg_output_dir).await;
+            {
+                let db = bg_app.db.lock().await;
+                let svc = AppRunnerService::new(&db);
                 let _ = svc.append_logs(&bg_instance_id, &env_log);
                 let _ = svc.complete_build_step(&env_step_id, true, Some(&env_log), None);
             }
@@ -1090,12 +1126,19 @@ pub async fn restart_app(
                 (s1, s2, s3, s4)
             };
 
-            // Step 0: env setup
+            // Step 0: env setup. The DB lock is released around
+            // `write_env_file` so its file I/O does not serialise the
+            // global database connection (and so the helper's own
+            // db.lock() does not deadlock the non-reentrant tokio Mutex).
             {
                 let db = bg_app.db.lock().await;
                 let svc = AppRunnerService::new(&db);
                 let _ = svc.update_build_step(&env_step_id, "running", None, None);
-                let env_log = write_env_file(&bg_app, &bg_project_id, &bg_output_dir, &db);
+            }
+            let env_log = write_env_file(&bg_app, &bg_project_id, &bg_output_dir).await;
+            {
+                let db = bg_app.db.lock().await;
+                let svc = AppRunnerService::new(&db);
                 let _ = svc.append_logs(&bg_instance_id, &env_log);
                 let _ = svc.complete_build_step(&env_step_id, true, Some(&env_log), None);
             }
