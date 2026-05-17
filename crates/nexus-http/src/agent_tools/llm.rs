@@ -215,14 +215,14 @@ impl Tool for LlmCompletionTool {
                 // families even ones that bypass the unified client.
                 let provider = if model.starts_with("claude") { "anthropic" } else { "openai" };
                 let cost_usd = crate::cost_intelligence::estimate_cost_usd(
-                    &model,
+                    model,
                     input_tokens,
                     output_tokens,
                 );
                 let cost_micros = crate::budget_brake::dollars_to_micros(cost_usd) as u64;
                 crate::http_metrics::record_llm_call(
                     provider,
-                    &model,
+                    model,
                     "default",
                     cost_micros,
                     input_tokens,
@@ -241,7 +241,7 @@ impl Tool for LlmCompletionTool {
                 let provider = if model.starts_with("claude") { "anthropic" } else { "openai" };
                 crate::http_metrics::record_llm_error(
                     provider,
-                    &model,
+                    model,
                     "default",
                     crate::http_metrics::LlmErrorKind::Other,
                 );
