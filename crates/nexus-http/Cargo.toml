@@ -61,7 +61,7 @@ opentelemetry_sdk = { version = "0.31.0", features = ["trace", "metrics", "rt-to
 opentelemetry-otlp = { version = "0.31.1", features = ["tonic", "grpc-tonic", "trace", "metrics"] }
 opentelemetry-semantic-conventions = "0.31.0"
 tracing-opentelemetry = "0.32.1"
-wasmtime = { version = "30", features = ["component-model", "async"] }
+wasmtime = { version = "44", features = ["component-model", "async"] }
 wasmtime-wasi = { version = "30" }
 
 [target.'cfg(unix)'.dependencies]

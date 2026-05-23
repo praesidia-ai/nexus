@@ -16,7 +16,7 @@ thiserror   = { workspace = true }
 tracing     = { workspace = true }
 uuid        = { workspace = true }
 chrono      = { workspace = true }
-wasmtime    = { version = "30", features = ["component-model", "async"] }
+wasmtime    = { version = "44", features = ["component-model", "async"] }
 wasmtime-wasi = { version = "30" }
 cap-std = "4.0.2"
 
